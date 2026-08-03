@@ -235,7 +235,7 @@ export function LeadershipTeam({
                     alt=""
                     fill
                     sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                    className="-z-20 transform-gpu object-cover grayscale [backface-visibility:hidden] transition-[scale,filter] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] will-change-transform group-hover:scale-[1.04] group-hover:grayscale-0"
+                    className="-z-20 transform-gpu object-cover [backface-visibility:hidden] transition-[scale,filter] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] will-change-transform group-hover:scale-[1.04]"
                   />
 
                   {/* Resting scrim keeps the name legible on any portrait */}

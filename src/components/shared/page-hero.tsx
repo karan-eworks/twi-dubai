@@ -141,7 +141,7 @@ export default function PageHero({
 
       <div
         className={[
-          "mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-y-12 px-6 pt-16 pb-16 sm:px-10 lg:grid-cols-12 lg:gap-x-14 lg:pt-24 lg:pb-24",
+          "mx-auto grid max-w-[1400px] mt-12 grid-cols-1 items-center gap-y-12 px-6 pt-16 pb-16 sm:px-10 lg:grid-cols-12 lg:gap-x-14 lg:pt-24 lg:pb-24",
           reverse ? "lg:[direction:rtl]" : "",
         ].join(" ")}
       >

@@ -58,3 +58,10 @@ export interface ApiMetaTag {
   created_at: string;
   updated_at: string;
 }
+
+
+export interface SectionIntro {
+  label?: string;
+  heading?: string;
+  deck?: string;
+}

@@ -1,10 +1,13 @@
+import { cn } from "@/lib/utils"
+
 interface TypeSetComponentProps {
   content: React.ReactNode
+  className?: string
 }
 
-function TypeSetComponent({ content }: TypeSetComponentProps) {
+function TypeSetComponent({ content,className }: TypeSetComponentProps) {
   return (
-    <div className="typeset typeset-docs max-w-[37em]">
+    <div className={cn("typeset typeset-docs max-w-[45em]", className)}>
         {content}
     </div>
   )

@@ -57,8 +57,8 @@ export function getAboutData(page: PageApiItem | null | undefined) {
     },
     purpose: {
       heading: "Shaping the Next Generation of Global Leaders",
-      deck:
-        "TWI Dubai combines British-quality vocational education with Dubai-based academic support, career guidance, and global progression routes.",
+    //   deck:
+    //     "TWI Dubai combines British-quality vocational education with Dubai-based academic support, career guidance, and global progression routes.",
       html: publishedPage?.description,
     },
     // campusImages,

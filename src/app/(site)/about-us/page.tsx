@@ -1,3 +1,4 @@
+import AboutPurposeSection from "@/components/about/about-purpose";
 import { Accreditation } from "@/components/about/accreditation-section";
 import { CampusGallery } from "@/components/about/dubai-campus";
 import { LeadershipTeam } from "@/components/about/leadership-section";
@@ -60,6 +61,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 
+
+
+
 export default async function AboutUs() {
    const { page, teamData, blogData } = await getAboutPageData();
 
@@ -76,10 +80,14 @@ export default async function AboutUs() {
         imageAlt={about.hero.media.alt}
       />
       <Accreditation />
-      <CTASection />
-      <CampusGallery />
+      <AboutPurposeSection
+        heading={about?.purpose.heading}
+        html={about?.purpose?.html}
+      />
       <LeadershipTeam />
-    <InsightsSections />
+      <CampusGallery />
+      <CTASection />
+      <InsightsSections />
     </div>
    
   );

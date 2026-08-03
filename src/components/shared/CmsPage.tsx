@@ -16,8 +16,7 @@ export function CmsPage({ page }: CmsPageProps) {
         <PageHero 
               title={page.title}              
               body={page.bodyHtml}
-              // imageSrc="https://images.unsplash.com/photo-1627556704302-624286467c65?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              imageSrc={page.media.src}
+              imageSrc={page.media.src || "https://images.unsplash.com/photo-1627556704302-624286467c65?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
               imageAlt={page.media.alt}
             />
 

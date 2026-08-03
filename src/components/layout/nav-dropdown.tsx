@@ -14,6 +14,8 @@ import { navItemClasses, useNavMenu } from "../navbar-context";
 interface NavDropdownProps {
   item: NavigationItem;
   align?: "start" | "center" | "end";
+  scrolled: boolean;
+  isHome: boolean;
 }
 
 interface PanelContent {
@@ -23,6 +25,7 @@ interface PanelContent {
   featureTitle: string;
   featureText: string;
   ctaLabel: string;
+  
 }
 
 const PANEL_CONTENT: Record<string, PanelContent> = {
@@ -129,7 +132,7 @@ const panelPositionClass: Record<NonNullable<NavDropdownProps["align"]>, string>
   end: "right-0",
 };
 
-export function NavDropdown({ item, align = "center" }: NavDropdownProps) {
+export function NavDropdown({ item, align = "center", scrolled, isHome }: NavDropdownProps) {
   const instanceId = useId();
   const panelId = `${instanceId}-panel`;
   const buttonId = `${instanceId}-button`;
@@ -168,7 +171,7 @@ export function NavDropdown({ item, align = "center" }: NavDropdownProps) {
         type="button"
         id={buttonId}
         onClick={() => toggleMenu(menuKey)}
-        className={navItemClasses(surface, isOpen)}
+        className={cn(navItemClasses(surface, isOpen), (isHome && !scrolled) && "text-white/90")}
         aria-expanded={isOpen}
         aria-controls={isOpen ? panelId : undefined}
       >

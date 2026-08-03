@@ -277,15 +277,29 @@ export function Navbar({ primaryNavigation, surface = "light" }: NavbarProps) {
               className="motion-link group flex min-w-0 items-center self-stretch no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
               aria-label="The Woolwich Institute Dubai — homepage"
             >
-              <Image
-                src="/twi.png"
-                alt="The Woolwich Institute Dubai"
-                width={210}
-                height={70}
-                priority
-                unoptimized
-                className="h-11 w-auto"
-              />
+             {
+              scrolled ? (
+                <Image
+                  src="/twi.png"
+                  alt="The Woolwich Institute Dubai"
+                  width={210}
+                  height={70}
+                  priority
+                  unoptimized
+                  className="h-14 w-auto"
+                />
+              ) : (
+                <Image
+                  src="/twi-white.svg"
+                  alt="The Woolwich Institute Dubai"
+                  width={210}
+                  height={70}
+                  priority
+                  unoptimized
+                  className="h-14 w-auto"
+                />
+              )
+             }
             </Link>
 
             <NavMenuProvider surface={barSurface}>

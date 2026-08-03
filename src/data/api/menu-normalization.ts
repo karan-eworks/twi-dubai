@@ -6,7 +6,7 @@ const SITE_ORIGINS = new Set([
 ]);
 
 const EXACT_PATH_REWRITES: Record<string, string> = {
-  "/about-us": "/about",
+  "/about-us": "/about-us",
   "/team": "/teams",
   "/business/courses": "/courses/category/business",
   "/computing/courses": "/courses/category/computing",

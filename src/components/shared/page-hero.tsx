@@ -25,7 +25,6 @@ import {
   type Variants,
 } from "framer-motion";
 import Image from "next/image";
-import { h1 } from "framer-motion/m";
 
 /* ── Brand tokens ───────────────────────────────────────────── */
 const NAVY = "#1F3860";
@@ -185,24 +184,28 @@ export default function PageHero({
 
           {/* Field — bleeds off the left edge of the viewport */}
           {body && (
-            <div className="relative mt-10 lg:mt-14">
-              <motion.div
-                aria-hidden
-                variants={wipeX}
-                className="absolute inset-y-0 right-0 left-[-100vw] origin-left"
-                style={{
-                  backgroundColor: NAVY,
-                  clipPath: "polygon(0 0, 100% 0, calc(100% - 72px) 100%, 0 100%)",
-                }}
-              />
-              <motion.p
-                variants={fade}
-                className="relative max-w-[65ch] py-10 pr-24 text-[clamp(1rem,1.15vw,1.175rem)] leading-[1.85] text-white/90 sm:py-12"
-              >
-                {body}
-              </motion.p>
-            </div>
-          )}
+              <div className="relative mt-10 lg:mt-14">
+                <motion.div
+                  aria-hidden
+                  variants={wipeX}
+                  className="absolute inset-y-0 right-0 left-[-100vw] origin-left"
+                  style={{
+                    backgroundColor: NAVY,
+                    clipPath: "polygon(0 0, 100% 0, calc(100% - 72px) 100%, 0 100%)",
+                  }}
+                />
+
+                {/* padding lives here, not on the clamped element */}
+                <div className="relative py-10 pr-24 sm:py-12">
+                  <motion.p
+                    variants={fade}
+                    className="line-clamp-2 max-w-[65ch] text-[clamp(1rem,1.15vw,1.175rem)] leading-[1.85] text-white/90"
+                  >
+                    {body}
+                  </motion.p>
+                </div>
+              </div>
+            )}
         </div>
 
         {/* ── Escutcheon ──────────────────────────────────── */}

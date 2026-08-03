@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/a11y/noSvgWithoutTitle: <explanation> */
+/** biome-ignore-all lint/security/noDangerouslySetInnerHtml: <explanation> */
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
 "use client";
 
@@ -25,6 +26,7 @@ import {
   type Variants,
 } from "framer-motion";
 import Image from "next/image";
+import TypeSetComponent from "./typeset-component";
 
 /* ── Brand tokens ───────────────────────────────────────────── */
 const NAVY = "#1F3860";
@@ -194,19 +196,21 @@ export default function PageHero({
                     clipPath: "polygon(0 0, 100% 0, calc(100% - 72px) 100%, 0 100%)",
                   }}
                 />
-
-                {/* padding lives here, not on the clamped element */}
                 <div className="relative py-10 pr-24 sm:py-12">
                   <motion.p
                     variants={fade}
-                    className="line-clamp-2 max-w-[65ch] text-[clamp(1rem,1.15vw,1.175rem)] leading-[1.85] text-white/90"
+                    className="line-clamp-2 max-w-[65ch] text-[clamp(1rem,1.15vw,1.175rem)] leading-[1.85] text-white/90! text-opacity-90"
                   >
-                    {body}
+                    {body ? (
+                      
+                    <TypeSetComponent content={<div className="text-white/90!"  dangerouslySetInnerHTML={{ __html: body }} />} />
+                    ) : null}
                   </motion.p>
                 </div>
               </div>
             )}
-        </div>
+          
+  </div>
 
         {/* ── Escutcheon ──────────────────────────────────── */}
         <div className="lg:col-span-5 lg:[direction:ltr]">

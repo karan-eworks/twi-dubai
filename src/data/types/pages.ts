@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import type { ApiListResponse, ApiMedia, ApiMetaTag } from "./common";
 
 export type PageListApiResponse = ApiListResponse<PageApiItem>;
@@ -28,4 +29,32 @@ export interface PageApiItem {
   }) | null;
   created_at?: string | null;
   updated_at?: string | null;
+}
+
+
+export interface MediaAsset {
+  src: string;
+  alt: string;
+  sizes?: string;
+  priority?: boolean;
+}
+
+
+export interface CmsPageDisplayData {
+  id: number;
+  title: string;
+  slug: string;
+  intro: string;
+  bodyHtml: string;
+  additionalHtml: string;
+  media: MediaAsset;
+  gallery: MediaAsset[];
+  
+}
+
+export interface CmsPageMeta {
+  title: string;
+  description: string;
+  image: string;
+  robots: NonNullable<Metadata["robots"]>;
 }

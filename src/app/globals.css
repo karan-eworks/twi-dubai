@@ -504,3 +504,319 @@
     }
   }
 }
+
+
+
+/* pose cms */
+
+/* ============================================================
+   .prose-cms — rich text from the CMS
+   Mirrors twi-typeset.css so both paths look identical.
+   If a block already renders inside .typeset, it does not need
+   this class as well — pick one per element.
+   ============================================================ */
+
+.prose-cms {
+  color: var(--foreground);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.prose-cms > * + * {
+  margin-top: 1.3em;
+}
+
+/* ---- Headings --------------------------------------------------
+   Libre Caslon Display ships a single weight. Asking for 700 makes
+   the browser synthesise bold and smear the serifs, so h2/h3 stay
+   at 400 and let size carry the hierarchy. */
+.prose-cms h2,
+.prose-cms h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: var(--foreground);
+  text-wrap: balance;
+}
+
+.prose-cms h2 {
+  margin-top: 2.5em;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.prose-cms h3 {
+  margin-top: 2em;
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+}
+
+/* Sans takes over where headings become interface rather than editorial */
+.prose-cms h4,
+.prose-cms h5 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.35;
+  color: var(--foreground);
+  margin-top: 1.8em;
+  font-size: 1.0625rem;
+}
+
+.prose-cms h6 {
+  font-family: var(--font-mono-stack);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-top: 1.8em;
+}
+
+.prose-cms :is(h2, h3, h4, h5, h6) + * {
+  margin-top: 0.75em;
+}
+
+/* ---- Links ------------------------------------------------------ */
+.prose-cms a {
+  color: var(--foreground);
+  font-weight: 500;
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in oklab, var(--brand) 55%, transparent);
+  text-underline-offset: 0.18em;
+}
+
+.prose-cms a:hover {
+  color: var(--brand);
+  text-decoration-color: var(--brand);
+}
+
+/* ---- Lists ------------------------------------------------------ */
+.prose-cms ul,
+.prose-cms ol {
+  padding-inline-start: 1.35rem;
+}
+
+.prose-cms ul { list-style-type: disc; }
+.prose-cms ol { list-style-type: decimal; }
+
+.prose-cms li + li {
+  margin-top: 0.6em;
+}
+
+.prose-cms li::marker {
+  color: var(--muted-foreground);
+}
+
+/* ---- Pull quotes ------------------------------------------------ */
+.prose-cms blockquote {
+  border-inline-start: 2px solid var(--brand);
+  padding-inline-start: 1.15em;
+  margin-inline: 0;
+  font-family: var(--font-serif-text);
+  font-style: italic;
+  font-size: 1.1em;
+  line-height: 1.55;
+}
+
+/* ---- Rules ------------------------------------------------------
+   Short cannon segment then a hairline — the crest frame, minimal. */
+.prose-cms hr {
+  border: 0;
+  block-size: 1px;
+  margin-top: 2.5em;
+  background: linear-gradient(
+    to right,
+    var(--brand) 0 2rem,
+    var(--border) 2rem
+  );
+}
+
+[dir="rtl"] .prose-cms hr {
+  background: linear-gradient(to left, var(--brand) 0 2rem, var(--border) 2rem);
+}
+
+/* ---- Tables -----------------------------------------------------
+   Fee schedules and entry requirements. Tables break out of the prose
+   measure and scroll horizontally rather than cramping every column.
+   ----------------------------------------------------------------- */
+
+/* Wrapper added by normalizeCmsHtml */
+.prose-cms .table-scroll {
+  max-width: none;
+  width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  margin-top: 1.75em;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+.prose-cms table {
+  width: 100%;
+  max-width: none;
+  /* Forces a scrollbar instead of squeezing columns to nothing */
+  min-width: 42rem;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  /* An ancestor with text-justify would otherwise stretch every cell */
+  text-align: start;
+}
+
+.prose-cms .table-scroll > table {
+  margin-top: 0;
+}
+
+.prose-cms :is(th, td) {
+  padding: 0.85em 1.1em;
+  text-align: start;
+  text-wrap: pretty;
+  vertical-align: top;
+  border-block-end: 1px solid var(--border);
+}
+
+.prose-cms :is(th, td) + :is(th, td) {
+  border-inline-start: 1px solid var(--border);
+}
+
+.prose-cms tbody tr:last-child :is(th, td) {
+  border-block-end: 0;
+}
+
+/* Light header band */
+.prose-cms thead th {
+  position: sticky;
+  top: 0;
+  background: var(--muted);
+  color: var(--foreground);
+  font-family: var(--font-mono-stack);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-block-end: 1px solid var(--color-navy-500);
+}
+
+/* Zebra striping — long fee tables are hard to track without it */
+.prose-cms tbody tr:nth-child(even) {
+  background: color-mix(in oklab, var(--muted) 55%, transparent);
+}
+
+/* Row-header cells (the merged "Business" / "Computing and IT" column) */
+.prose-cms tbody th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Money and short codes should never wrap mid-value */
+.prose-cms td:last-child {
+  white-space: nowrap;
+}
+
+/* ---- Media and code --------------------------------------------- */
+.prose-cms :is(img, video) {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md, 5px);
+}
+
+.prose-cms figcaption {
+  font-family: var(--font-mono-stack);
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+  margin-top: 0.75em;
+}
+
+.prose-cms :not(pre) > code {
+  background: var(--muted);
+  color: var(--color-navy-700);
+  font-family: var(--font-mono-stack);
+  font-size: 0.85em;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.125em 0.3em;
+}
+
+/* ---- Arabic / RTL ----------------------------------------------- */
+.prose-cms:is([lang="ar"], [dir="rtl"]),
+[dir="rtl"] .prose-cms {
+  font-family: var(--font-arabic-stack);
+  line-height: 1.95;
+}
+
+[dir="rtl"] .prose-cms :is(h2, h3) {
+  font-family: var(--font-arabic-stack);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* ============================================================
+   Icon grids inside CMS content
+
+   The editor emits a wrapper of cells, each cell an <img> followed
+   by an <h4>. The old site laid these out with its own CSS; :has()
+   lets us recognise the shape and restore a grid without touching
+   the markup.
+   ============================================================ */
+
+/* The wrapper: any div whose children are icon cells */
+.prose-cms div:has(> div > img + h4) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.5em;
+}
+
+/* Nested wrappers shouldn't stack their own grid */
+.prose-cms div:has(> div > img + h4) > div:has(> div > img + h4) {
+  display: contents;
+}
+
+/* The cell */
+.prose-cms div:has(> img + h4) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 1.15rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--card, #fff);
+  text-align: center;
+}
+
+.prose-cms div:has(> img + h4) > img {
+  inline-size: 2rem;
+  block-size: 2rem;
+  object-fit: contain;
+  margin: 0;
+  border-radius: 0;
+}
+
+.prose-cms div:has(> img + h4) > h4 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: var(--foreground);
+  text-wrap: balance;
+}
+
+/* The generic flow margin must not re-apply inside cells */
+.prose-cms div:has(> img + h4) > * + * {
+  margin-top: 0;
+}
+
+/* A broken image otherwise renders its alt text at full paragraph
+   width, which is what makes the block look like a list of captions. */
+.prose-cms div:has(> img + h4) > img[alt] {
+  font-size: 0.6875rem;
+  color: var(--muted-foreground);
+  overflow: hidden;
+}

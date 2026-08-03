@@ -254,6 +254,8 @@ export function Navbar({ primaryNavigation, surface = "light" }: NavbarProps) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
+  const isHome = pathname === "/";
+
   return (
     <>
       <motion.header
@@ -290,7 +292,7 @@ export function Navbar({ primaryNavigation, surface = "light" }: NavbarProps) {
                 />
               ) : (
                 <Image
-                  src="/twi-white.svg"
+                  src={isHome ? "/twi-white.svg" : "/twi.png"}
                   alt="The Woolwich Institute Dubai"
                   width={210}
                   height={70}

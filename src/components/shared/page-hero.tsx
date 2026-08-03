@@ -197,7 +197,7 @@ export default function PageHero({
                   }}
                 />
                 <div className="relative py-10 pr-24 sm:py-12">
-                  <motion.p
+                  <motion.div
                     variants={fade}
                     className="line-clamp-2 max-w-[65ch] text-[clamp(1rem,1.15vw,1.175rem)] leading-[1.85] text-white/90! text-opacity-90"
                   >
@@ -205,7 +205,7 @@ export default function PageHero({
                       
                     <TypeSetComponent content={<div className="text-white/90!"  dangerouslySetInnerHTML={{ __html: body }} />} />
                     ) : null}
-                  </motion.p>
+                  </motion.div>
                 </div>
               </div>
             )}

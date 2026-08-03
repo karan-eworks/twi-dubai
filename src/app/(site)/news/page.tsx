@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { NewsIndex } from "@/src/components/sections/news/news-index";
-import { getNewsDisplayData } from "@/src/components/sections/news/news-api-content";
-import { getNews } from "@/src/data/fetch/news";
+import { Suspense } from "react";
+import { BlogCardSkeletonGrid } from "@/components/blogs/blog-card-skeleton";
+import { NewsIndex } from "@/components/news/news-index";
 
 const fallbackOpenGraphImage = "/images/twi-classroom-study.jpg";
 
@@ -29,71 +29,10 @@ export const metadata: Metadata = {
   },
 };
 
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: "https://www.woolwich.ac.ae",
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "News",
-      item: "https://www.woolwich.ac.ae/news",
-    },
-  ],
-};
-
-export default async function NewsPage() {
-  let newsData;
-  try {
-    newsData = await getNews();
-  } catch {
-    newsData = { data: [] };
-  }
-  const { articles, featuredArticle, categories, tags } = getNewsDisplayData(
-    newsData.data ?? [],
-  );
-  const collectionSchema = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "News & Announcements",
-    description:
-      "Official updates, campus notices, programme announcements, events, and admissions news from The Woolwich Institute Dubai.",
-    url: "https://www.woolwich.ac.ae/news",
-    mainEntity: {
-      "@type": "ItemList",
-      itemListElement: articles.map((article, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        url: article.canonicalUrl,
-        name: article.title,
-      })),
-    },
-  };
-
+export default function NewsPage() {
   return (
-    <>
-      <NewsIndex
-        articles={articles}
-        featuredArticle={featuredArticle}
-        categories={categories}
-        tags={tags}
-      />
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-    </>
+    <Suspense fallback={<BlogCardSkeletonGrid />}>
+      <NewsIndex />
+    </Suspense>
   );
 }

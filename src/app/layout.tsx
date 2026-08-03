@@ -1,16 +1,40 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+import SiteLayout from "@/components/layout/site-layout";
+import { IBM_Plex_Sans, IBM_Plex_Mono, Libre_Caslon_Display, Libre_Caslon_Text } from "next/font/google";
+ 
+const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-plex-sans",
+  display: "swap",
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+ 
+ 
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-plex-mono",
+  display: "swap",
 });
+ 
+// Display face — one weight only. Size carries hierarchy.
+const caslonDisplay = Libre_Caslon_Display({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-caslon-display",
+  display: "swap",
+});
+ 
+// For italic pull quotes and long-form serif body, if you use it.
+const caslonText = Libre_Caslon_Text({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-caslon-text",
+  display: "swap",
+});
+ 
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,12 +46,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${plexSans.variable} ${plexMono.variable} ${caslonDisplay.variable} ${caslonText.variable} h-full antialiased`}
+      // British Education Group site: add data-brand="beg"
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <SiteLayout>{children}</SiteLayout>
+      </body>
     </html>
   );
 }

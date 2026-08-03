@@ -1,3 +1,4 @@
+/** biome-ignore lint/a11y/noAriaHiddenOnFocusable: false positive */
 /** biome-ignore-all lint/a11y/noAriaHiddenOnFocusable: <explanation> */
 "use client";
 
@@ -96,7 +97,7 @@ export function Hero({
   proof?: HeroProof[];
   media?: HeroMedia;
 }) {
-  const [selectedId, setSelectedId] = useState(programmes[0]?.id ?? "");
+  const [selectedId, setSelectedId] = useState<string | null>(programmes[0]?.id ?? null);
   const reduceMotion = useReducedMotion();
   const selected = programmes.find((p) => p.id === selectedId) ?? programmes[0];
 
@@ -108,7 +109,7 @@ export function Hero({
     show: {
       y: 0,
       opacity: 1,
-      transition: { duration: reduceMotion ? 0 : 0.7, ease: [0.32, 0.72, 0, 1] },
+      transition: { duration: reduceMotion ? 0 : 0.7, ease: "easeOut" as const },
     },
   };
 
@@ -134,7 +135,7 @@ export function Hero({
         <motion.div
           initial={{ scale: reduceMotion ? 1 : 1.08 }}
           animate={{ scale: 1 }}
-          transition={{ duration: reduceMotion ? 0 : 2.6, ease: [0.32, 0.72, 0, 1] }}
+          transition={{ duration: reduceMotion ? 0 : 2.6, ease: "easeOut" }}
           className="absolute inset-0 -z-20"
         >
           <Image
@@ -243,7 +244,7 @@ export function Hero({
                 exit={{ opacity: 0, y: reduceMotion ? 0 : -8 }}
                 transition={{
                   duration: reduceMotion ? 0 : 0.28,
-                  ease: [0.32, 0.72, 0, 1],
+                  ease: "easeOut",
                 }}
                 className="mt-5 border-s-2 border-white/20 ps-5"
               >

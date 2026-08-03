@@ -4,60 +4,44 @@ export type BlogListApiResponse = ApiListResponse<BlogApiItem>;
 
 export type BlogDetailApiResponse = BlogApiItem | { data: BlogApiItem | null };
 
-export interface BlogTaxonomyApiItem {
-  id?: number;
-  name?: string | null;
-  title?: string | null;
-  slug?: string | null;
+export interface BlogCategoryApiItem {
+  id: number;
+  name: string;
+  slug: string;
+  parent_id: number | null;
 }
 
 export interface BlogAuthorApiItem {
-  id?: number;
-  name?: string | null;
-  title?: string | null;
-  designation?: string | null;
-  position?: string | null;
-  biography?: string | null;
-  bio?: string | null;
-  image?: string | ApiMedia | null;
-  photo?: string | ApiMedia | null;
-  avatar?: string | ApiMedia | null;
-  socials?: BlogAuthorSocialApiItem[] | Record<string, string> | null;
+  id: number;
+  name: string;
 }
 
-export interface BlogAuthorSocialApiItem {
-  label?: string | null;
-  name?: string | null;
-  href?: string | null;
-  url?: string | null;
+export interface BlogTagApiItem {
+  id: number;
+  name: string;
+  slug: string;
 }
 
 export interface BlogApiItem {
   id: number;
   title: string;
   slug: string;
-  subtitle?: string | null;
   excerpt?: string | null;
   description?: string | null;
-  content?: string | null;
-  body?: string | null;
-  html?: string | null;
-  featured_image?: string | ApiMedia | null;
-  cover_image?: string | ApiMedia | null;
-  image?: string | ApiMedia | null;
-  og_image?: string | ApiMedia | null;
-  author?: string | BlogAuthorApiItem | null;
-  category?: string | BlogTaxonomyApiItem | null;
-  categories?: Array<string | BlogTaxonomyApiItem> | null;
-  tags?: Array<string | BlogTaxonomyApiItem> | null;
-  meta_tag?: ApiMetaTag | null;
-  published_at?: string | null;
+  video_url?: string | null;
+  pdf?: string | null;
+  image?: string | null;
+  view_count?: number | null;
+  status?: boolean | null;
+  active?: boolean | null;
+  publish?: boolean | null;
   publish_date?: string | null;
+  featured_image?: ApiMedia | null;
+  medias?: ApiMedia[] | null;
+  categories?: BlogCategoryApiItem[] | null;
+  authors?: BlogAuthorApiItem[] | null;
+  tags?: BlogTagApiItem[] | null;
+  meta_tag?: ApiMetaTag | null;
   created_at?: string | null;
   updated_at?: string | null;
-  read_time?: string | null;
-  reading_time?: string | number | null;
-  featured?: boolean | number | string | null;
-  is_featured?: boolean | number | string | null;
-  status?: string | boolean | null;
 }

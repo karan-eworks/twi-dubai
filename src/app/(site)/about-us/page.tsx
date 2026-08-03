@@ -2,7 +2,6 @@ import AboutPurposeSection from "@/components/about/about-purpose";
 import { Accreditation } from "@/components/about/accreditation-section";
 import { CampusGallery } from "@/components/about/dubai-campus";
 import { LeadershipTeam } from "@/components/about/leadership-section";
-import { InsightsSections } from "@/components/cards/insight-card";
 import CTASection from "@/components/shared/cta-section";
 import PageHero from "@/components/shared/page-hero";
 import { getBlogs } from "@/data/api/blogs";
@@ -60,10 +59,6 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-
-
-
-
 export default async function AboutUs() {
    const { page, teamData, blogData } = await getAboutPageData();
 
@@ -85,9 +80,8 @@ export default async function AboutUs() {
         html={about?.purpose?.html}
       />
       <LeadershipTeam />
-      <CampusGallery />
       <CTASection />
-      <InsightsSections />
+      <CampusGallery />      
     </div>
    
   );

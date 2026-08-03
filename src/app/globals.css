@@ -515,9 +515,23 @@
    If a block already renders inside .typeset, it does not need
    this class as well — pick one per element.
    ============================================================ */
+/* ============================================================
+   .prose-cms — rich text from the CMS
+   Mirrors twi-typeset.css so both paths look identical.
+   If a block already renders inside .typeset, it does not need
+   this class as well — pick one per element.
+   ============================================================ */
+
+   /* ============================================================
+   .prose-cms — rich text from the CMS
+   Mirrors twi-typeset.css so both paths look identical.
+   If a block already renders inside .typeset, it does not need
+   this class as well — pick one per element.
+   ============================================================ */
 
 .prose-cms {
   color: var(--foreground);
+  text-align: start;
   font-size: 1.0625rem;
   line-height: 1.7;
 }
@@ -636,8 +650,8 @@
 }
 
 /* ---- Tables -----------------------------------------------------
-   Fee schedules and entry requirements. Tables break out of the prose
-   measure and scroll horizontally rather than cramping every column.
+   Navy header band, hairline body, zebra rows. Tables break out of the
+   prose measure and scroll rather than cramping columns.
    ----------------------------------------------------------------- */
 
 /* Wrapper added by normalizeCmsHtml */
@@ -648,14 +662,13 @@
   overscroll-behavior-x: contain;
   margin-top: 1.75em;
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
 .prose-cms table {
   width: 100%;
   max-width: none;
-  /* Forces a scrollbar instead of squeezing columns to nothing */
-  min-width: 42rem;
+  min-width: 40rem;
   border-collapse: collapse;
   font-variant-numeric: tabular-nums;
   font-size: 0.9375rem;
@@ -668,51 +681,62 @@
   margin-top: 0;
 }
 
-.prose-cms :is(th, td) {
+/* ---- Header band ---- */
+.prose-cms thead th {
+  background: var(--color-navy-500);
+  /* Explicit, or it inherits navy text on the navy band and vanishes */
+  color: #fff;
+  font-family: var(--font-mono-stack);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-align: start;
+  white-space: nowrap;
+  padding: 0.9em 1.1em;
+  border-block-end: 2px solid var(--brand);
+}
+
+.prose-cms thead th + th {
+  border-inline-start: 1px solid oklch(1 0 0 / 15%);
+}
+
+/* ---- Body ---- */
+.prose-cms :is(tbody, tfoot) :is(th, td) {
   padding: 0.85em 1.1em;
   text-align: start;
   text-wrap: pretty;
   vertical-align: top;
-  border-block-end: 1px solid var(--border);
+  color: var(--foreground);
+  border-block-start: 1px solid var(--border);
 }
 
-.prose-cms :is(th, td) + :is(th, td) {
+.prose-cms :is(tbody, tfoot) :is(th, td) + :is(th, td) {
   border-inline-start: 1px solid var(--border);
 }
 
-.prose-cms tbody tr:last-child :is(th, td) {
-  border-block-end: 0;
+.prose-cms tbody tr:first-child :is(th, td) {
+  border-block-start: 0;
 }
 
-/* Light header band */
-.prose-cms thead th {
-  position: sticky;
-  top: 0;
-  background: var(--muted);
-  color: var(--foreground);
-  font-family: var(--font-mono-stack);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  border-block-end: 1px solid var(--color-navy-500);
-}
-
-/* Zebra striping — long fee tables are hard to track without it */
 .prose-cms tbody tr:nth-child(even) {
-  background: color-mix(in oklab, var(--muted) 55%, transparent);
+  background: color-mix(in oklab, var(--muted) 60%, transparent);
 }
 
-/* Row-header cells (the merged "Business" / "Computing and IT" column) */
+/* Row-header cells — the merged "Business" / "Computing and IT" column */
 .prose-cms tbody th {
   font-weight: 600;
   white-space: nowrap;
 }
 
-/* Money and short codes should never wrap mid-value */
+/* Money and codes should never break mid-value */
 .prose-cms td:last-child {
   white-space: nowrap;
+}
+
+.prose-cms tfoot :is(th, td) {
+  font-weight: 600;
+  background: var(--muted);
 }
 
 /* ---- Media and code --------------------------------------------- */
@@ -819,4 +843,64 @@
   font-size: 0.6875rem;
   color: var(--muted-foreground);
   overflow: hidden;
+}
+
+/* ============================================================
+   Feature cells — icon + heading + body copy
+
+   Same markup family as the amenity tiles, but with a paragraph
+   inside. These need a much wider track and left-aligned text;
+   the tile rules above would squeeze them into columns.
+   These come later in the file so they win on source order.
+   ============================================================ */
+
+/* Wrapper whose cells carry body copy */
+.prose-cms div:has(> div > img + h4 + p) {
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+/* The cell */
+.prose-cms div:has(> img + h4 + p) {
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.85rem;
+  padding: 1.5rem;
+  text-align: start;
+}
+
+.prose-cms div:has(> img + h4 + p) > img {
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+}
+
+.prose-cms div:has(> img + h4 + p) > h4 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: var(--foreground);
+  text-align: start;
+  text-wrap: balance;
+}
+
+.prose-cms div:has(> img + h4 + p) > p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  text-align: start;
+  text-wrap: pretty;
+}
+
+/* Second and later paragraphs keep a normal gap */
+.prose-cms div:has(> img + h4 + p) > p ~ p {
+  margin-top: 0.6em;
+}
+
+.prose-cms div:has(> img + h4 + p) > * + * {
+  margin-top: 0;
 }

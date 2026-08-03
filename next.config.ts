@@ -6,11 +6,6 @@ const nextConfig: NextConfig = {
  images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost:3000",
-        pathname: "/"
-      },
-      {
         protocol: "https",
         hostname: "www.woolwich.ac.ae",
         pathname: "/uploads/**",

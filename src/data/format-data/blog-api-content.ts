@@ -1,4 +1,5 @@
-import type { Article } from "@/components/cards/insight-card";
+import type { Article } from "@/components/blogs/blog-card";
+import { toIsoDate } from "@/lib/dates";
 import type { BlogApiItem } from "../types/blogs";
 
 const FALLBACK_IMAGE = "/images/twi-classroom-study.jpg";
@@ -32,11 +33,7 @@ export function toArticleCard(item: BlogApiItem): Article {
       (description ? truncate(stripHtml(description)) : ""),
     category: item.categories?.[0]?.name || "Guides",
     readingMinutes: estimateReadingMinutes(description),
-    date: (
-      item.publish_date ??
-      item.created_at ??
-      new Date(0).toISOString()
-    ).replace(" ", "T"),
+    date: toIsoDate(item.publish_date, item.created_at),
     href: `/blogs/${item.slug}`,
     image: item.featured_image?.location || item.image || FALLBACK_IMAGE,
   };

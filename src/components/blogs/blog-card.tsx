@@ -15,19 +15,20 @@ export interface Article {
   image: string;
 }
 
-
 interface BlogCardProps {
   article: Article;
 }
 
-const fmtDate = (date: string) =>
-  new Intl.DateTimeFormat("en-GB", {
+const fmtDate = (date: string) => {
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.getTime())) return "";
+  return new Intl.DateTimeFormat("en-GB", {
     timeZone: "Asia/Dubai",
     day: "numeric",
     month: "short",
     year: "numeric",
-  }).format(new Date(date));
-
+  }).format(parsed);
+};
 
 export function BlogCard({ article }: BlogCardProps) {
   return (

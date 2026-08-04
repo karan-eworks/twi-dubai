@@ -1,7 +1,4 @@
-import { Accreditation } from "@/components/about/accreditation-section";
-import { LeadershipTeam } from "@/components/about/leadership-section";
 import { CourseCards } from "@/components/cards/course-section";
-import { InsightsSections } from "@/components/cards/insight-card";
 import { LatestEvents } from "@/components/home/event-section";
 import { Hero } from "@/components/home/hero-section";
 import { Insights } from "@/components/home/insights-section";
@@ -26,7 +23,6 @@ export default function Home() {
       <VideoTestimonials testimonials={videoTestimonials} />
       <LatestEvents />
       <Insights />
-      
       <CourseCards />
     </div>
    

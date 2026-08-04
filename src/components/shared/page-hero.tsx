@@ -171,7 +171,7 @@ export default function PageHero({
           {/* Headline */}
           <h1
             id={`hero-title-${uid}`}
-            className="font-['Libre_Caslon_Display',Georgia,serif] text-[clamp(3rem,9vw,7.5rem)] leading-[0.92] tracking-[-0.02em]"
+            className="font-heading text-[clamp(3rem,9vw,7.5rem)] leading-[0.92] tracking-[-0.02em]"
             style={{ color: NAVY_DEEP }}
           >
             {words.map((word, i) => (

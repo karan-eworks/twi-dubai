@@ -173,11 +173,8 @@ export function Hero({
           }}
           className="grid items-end gap-10 pb-12 lg:grid-cols-[minmax(0,1fr)_28rem] lg:gap-14 lg:pb-16"
         >
-          <div className="min-w-0 text-white">
-            <motion.span variants={rise} className="eyebrow eyebrow-invert">
-              September 2026 intake
-            </motion.span>
-
+          <div className="min-w-0 text-white">           
+            
             <motion.h1
               id="hero-heading"
               variants={rise}
@@ -188,14 +185,16 @@ export function Hero({
 
             <motion.p
               variants={rise}
-              className="mt-6 max-w-lg border-s-2 border-cannon-500 ps-5 text-base leading-7 text-white/80 sm:text-lg sm:leading-8"
+              className="mt-10 max-w-2xl border-s-2 border-cannon-500 ps-5 text-base leading-7 text-white/80 sm:text-lg sm:leading-8"
             >
               KHDA-licensed, Pearson-approved study in Dubai, with scholarships
               and UK progression routes.
             </motion.p>
           </div>
 
-          <motion.aside
+          {/* Instant Check out Form */}
+          
+          {/* <motion.aside
             variants={rise}
             aria-labelledby="enrolment-check-heading"
             className="w-full rounded-md border border-white/15 border-t-2 border-t-cannon-500 bg-navy-950/75 p-7 text-white backdrop-blur-xl sm:p-9"
@@ -222,8 +221,7 @@ export function Hero({
                 id="hero-course-interest"
                 className="mt-3 h-14 w-full rounded-sm border-white/20 bg-white/10 text-base text-white focus-visible:ring-cannon-500/60"
               >
-                {/* Children override the raw value, which is what was rendering
-                    as "acca" in the trigger. */}
+             
                 <SelectValue placeholder="Select a programme">
                   {selected?.label}
                 </SelectValue>
@@ -286,7 +284,8 @@ export function Hero({
                 Contact admissions
               </ButtonLink>
             </div>
-          </motion.aside>
+          </motion.aside> */}
+
         </motion.div>
       </Container>
 

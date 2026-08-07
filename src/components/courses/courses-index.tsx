@@ -20,14 +20,42 @@ const SEARCH_DEBOUNCE_MS = 400;
 /** Matches the course card's media ratio. */
 const SKELETON_MEDIA = "aspect-16/10";
 
-export function CoursesIndex() {
+const DEFAULT_HERO = {
+  title: "Programmes at The Woolwich Institute",
+  body: "KHDA-licensed BTEC diplomas, higher national diplomas, and professional certifications, taught in Dubai and built around UK progression routes.",
+  imageSrc:
+    "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  imageAlt: "Students studying at The Woolwich Institute Dubai.",
+};
+
+interface CoursesIndexProps {
+  /** Locks the list to one department and hides the department filter. */
+  departmentId?: number | string | null;
+  title?: string;
+  body?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+}
+
+export function CoursesIndex({
+  departmentId = null,
+  title = DEFAULT_HERO.title,
+  body = DEFAULT_HERO.body,
+  imageSrc = DEFAULT_HERO.imageSrc,
+  imageAlt = DEFAULT_HERO.imageAlt,
+}: CoursesIndexProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const isScoped = departmentId !== null && departmentId !== undefined;
+
   const page = Number(searchParams.get("page")) || 1;
   const search = searchParams.get("search") ?? "";
-  const department = searchParams.get("department");
+  // A scoped list ignores the URL: its department comes from the route itself.
+  const department = isScoped
+    ? String(departmentId)
+    : searchParams.get("department");
 
   const [searchInput, setSearchInput] = useState(search);
   const [departments, setDepartments] = useState<SearchFilterOption[]>([]);
@@ -42,6 +70,8 @@ export function CoursesIndex() {
 
   // Only departments that are active and unhidden may be offered as filters.
   useEffect(() => {
+    if (isScoped) return;
+
     let cancelled = false;
 
     getVisibleCourseCategories()
@@ -60,7 +90,7 @@ export function CoursesIndex() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [isScoped]);
 
   useEffect(() => {
     let cancelled = false;
@@ -129,15 +159,15 @@ export function CoursesIndex() {
     router.push(pathname, { scroll: false });
   };
 
-  const hasFilters = Boolean(search || department);
+  const hasFilters = Boolean(search) || (!isScoped && Boolean(department));
 
   return (
     <main>
       <PageHero
-        title="Programmes at The Woolwich Institute"
-        body="KHDA-licensed BTEC diplomas, higher national diplomas, and professional certifications, taught in Dubai and built around UK progression routes."
-        imageSrc="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        imageAlt="Students studying at The Woolwich Institute Dubai."
+        title={title}
+        body={body}
+        imageSrc={imageSrc}
+        imageAlt={imageAlt}
       />
 
       <section className="pt-8">
@@ -150,9 +180,9 @@ export function CoursesIndex() {
           resultLabel="programmes"
           onSearchChange={setSearchInput}
           filterLabel="Filter by department"
-          filterOptions={departments}
-          activeFilter={department}
-          onFilterChange={handleDepartmentChange}
+          filterOptions={isScoped ? [] : departments}
+          activeFilter={isScoped ? null : department}
+          onFilterChange={isScoped ? undefined : handleDepartmentChange}
           allFilterLabel="All departments"
         />
       </section>
@@ -176,17 +206,20 @@ export function CoursesIndex() {
                   <CourseCard key={course.id} course={course} />
                 ))}
               </div>
-            ) : (
+            ) : hasFilters ? (
               <EmptyOutline
                 title="No programmes match those filters"
-                description="Try a broader search term, or clear the filters to see every programme."
+                description="Try a broader search term, or clear the filters to see more programmes."
                 action={
-                  hasFilters ? (
-                    <Button variant="outline" size="lg" onClick={clearFilters}>
-                      Clear filters
-                    </Button>
-                  ) : null
+                  <Button variant="outline" size="lg" onClick={clearFilters}>
+                    Clear filters
+                  </Button>
                 }
+              />
+            ) : (
+              <EmptyOutline
+                title="No programmes listed yet"
+                description="Programmes appear here as soon as they are published. Please check back shortly."
               />
             )}
 

@@ -1,8 +1,14 @@
-import { CmsPage } from "@/components/shared/CmsPage";
-import { getCmsPageDisplayData, getCmsPageMeta, getPageBySlug, getPages, getPublishedCmsPageStaticParams, isPublishedCmsPage } from "@/data/api/pages";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-
+import { CmsPage } from "@/components/shared/CmsPage";
+import {
+  getCmsPageDisplayData,
+  getCmsPageMeta,
+  getPageBySlug,
+  getPages,
+  getPublishedCmsPageStaticParams,
+  isPublishedCmsPage,
+} from "@/data/api/pages";
 
 interface Props {
   params: Promise<{ slug: string }>;

@@ -1,9 +1,15 @@
 import { apiFetch } from "@/lib/api";
-import type { TeamApiItem, TeamListApiResponse, TeamDetailApiResponse } from "../types/team";
 import { slugify } from "@/lib/slugfy";
+import type {
+  TeamApiItem,
+  TeamDetailApiResponse,
+  TeamListApiResponse,
+} from "../types/team";
 
 function itemSlug(item: TeamApiItem) {
-  return item.slug?.trim() || slugify(item.name ?? item.title ?? String(item.id));
+  return (
+    item.slug?.trim() || slugify(item.name ?? item.title ?? String(item.id))
+  );
 }
 
 function isTeamApiItem(value: unknown): value is TeamApiItem {
@@ -36,9 +42,12 @@ export async function getTeamMemberById(
   return isTeamApiItem(candidate) ? candidate : null;
 }
 
-export async function getTeamMemberBySlug(slug: string): Promise<TeamApiItem | null> {
+export async function getTeamMemberBySlug(
+  slug: string,
+): Promise<TeamApiItem | null> {
   const team = await getTeam();
-  const match = team.data.find((item: TeamApiItem) => itemSlug(item) === slug) ?? null;
+  const match =
+    team.data.find((item: TeamApiItem) => itemSlug(item) === slug) ?? null;
 
   if (match) {
     return getTeamMemberById(match.id);

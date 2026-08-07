@@ -1,8 +1,8 @@
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Container } from "../shared/container";
 import { ButtonLink } from "../shared/ButtonLink";
+import { Container } from "../shared/container";
 
 export interface Course {
   id: string;
@@ -66,11 +66,18 @@ const defaultCourses: Course[] = [
   },
 ];
 
-export function CourseCardsSection({ courses = defaultCourses }: { courses?: Course[] }) {
+export function CourseCardsSection({
+  courses = defaultCourses,
+}: {
+  courses?: Course[];
+}) {
   if (!courses.length) return null;
 
   return (
-    <section aria-labelledby="courses-heading" className="py-20 sm:py-24 lg:py-28">
+    <section
+      aria-labelledby="courses-heading"
+      className="py-20 sm:py-24 lg:py-28"
+    >
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-xl">

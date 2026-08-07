@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { type Resolver, Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { isValidPhoneNumber } from "react-phone-number-input";
 import { ArrowRight, Check, Loader2 } from "lucide-react";
-
+import { useMemo, useState } from "react";
+import { Controller, type Resolver, useForm } from "react-hook-form";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import { z } from "zod";
+import { Recaptcha } from "@/components/apply/recaptcha";
+import { Button } from "@/components/shared/ButtonLink";
 import {
   Field,
   FieldDescription,
@@ -14,7 +15,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { PhoneInput } from "@/components/ui/phone-input";
 import {
   Select,
   SelectContent,
@@ -22,9 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PhoneInput } from "@/components/ui/phone-input";
-import { Button } from "@/components/shared/ButtonLink";
-import { Recaptcha } from "@/components/apply/recaptcha";
+import { Textarea } from "@/components/ui/textarea";
 import type {
   ApplyFieldDescriptor,
   ApplyFieldOption,
@@ -97,9 +96,12 @@ function optionsFor(
 export function ApplyForm({
   config,
   courseOptions,
+  initialValues,
 }: {
   config: ApplyFormConfig;
   courseOptions: ApplyFieldOption[];
+  /** Prefills fields by slug — a programme page arrives with its own course. */
+  initialValues?: Record<string, string>;
 }) {
   const [status, setStatus] = useState<"idle" | "sent" | "error">("idle");
   const [captchaToken, setCaptchaToken] = useState("");
@@ -113,14 +115,11 @@ export function ApplyForm({
 
   const defaultValues = useMemo(
     () =>
-      fields.reduce<ApplyValues>(
-        (values, field) => {
-          values[field.slug] = "";
-          return values;
-        },
-        {},
-      ),
-    [fields],
+      fields.reduce<ApplyValues>((values, field) => {
+        values[field.slug] = initialValues?.[field.slug] ?? "";
+        return values;
+      }, {}),
+    [fields, initialValues],
   );
 
   const {
@@ -155,9 +154,10 @@ export function ApplyForm({
         }),
       });
 
-      const body = (await response.json().catch(() => null)) as
-        | { errors?: Record<string, string[]>; message?: string }
-        | null;
+      const body = (await response.json().catch(() => null)) as {
+        errors?: Record<string, string[]>;
+        message?: string;
+      } | null;
 
       if (!response.ok) {
         const upstreamErrors = body?.errors;
@@ -218,16 +218,15 @@ export function ApplyForm({
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="grid gap-5 sm:grid-cols-2">
         {fields.map((field) => {
-          const errorMessage = errors[field.slug]?.message as string | undefined;
+          const errorMessage = errors[field.slug]?.message as
+            | string
+            | undefined;
           const invalid = Boolean(errorMessage);
           const autoComplete = AUTOCOMPLETE[field.slug];
           const options = optionsFor(field, courseOptions);
 
           return (
-            <div
-              key={field.slug}
-              className={field.half ? "" : "sm:col-span-2"}
-            >
+            <div key={field.slug} className={field.half ? "" : "sm:col-span-2"}>
               <Field data-invalid={invalid}>
                 <FieldLabel htmlFor={field.slug}>{field.label}</FieldLabel>
 

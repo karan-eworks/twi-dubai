@@ -1,17 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { ease } from "@/lib/animations";
-import { ButtonLink } from "../shared/ButtonLink";
+import { useEffect, useState } from "react";
 import type { NavigationItem } from "@/data/types/menus";
+import { ease } from "@/lib/animations";
+import { cn } from "@/lib/utils";
+import {
+  NavMenuProvider,
+  type NavSurface,
+  navItemClasses,
+} from "../navbar-context";
+import { ButtonLink } from "../shared/ButtonLink";
 import { NavDropdown } from "./nav-dropdown";
-import { type NavSurface, NavMenuProvider, navItemClasses } from "../navbar-context";
 
 interface NavbarProps {
   primaryNavigation?: NavigationItem[];
@@ -54,7 +58,7 @@ export function Navbar({ primaryNavigation, surface = "light" }: NavbarProps) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  const isHome = pathname === "/";
+  const isHome = pathname === "/" || pathname.startsWith("/blogs/");
 
   return (
     <>
@@ -79,8 +83,7 @@ export function Navbar({ primaryNavigation, surface = "light" }: NavbarProps) {
               className="motion-link group flex min-w-0 items-center self-stretch no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
               aria-label="The Woolwich Institute Dubai — homepage"
             >
-             {
-              scrolled ? (
+              {scrolled ? (
                 <Image
                   src="/twi.png"
                   alt="The Woolwich Institute Dubai"
@@ -100,8 +103,7 @@ export function Navbar({ primaryNavigation, surface = "light" }: NavbarProps) {
                   unoptimized
                   className="h-14 w-auto"
                 />
-              )
-             }
+              )}
             </Link>
 
             <NavMenuProvider surface={barSurface}>
@@ -128,7 +130,10 @@ export function Navbar({ primaryNavigation, surface = "light" }: NavbarProps) {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={cn(navItemClasses(barSurface, pathname === item.href), (isHome && !scrolled )&& "text-white/90")}
+                      className={cn(
+                        navItemClasses(barSurface, pathname === item.href),
+                        isHome && !scrolled && "text-white/90",
+                      )}
                     >
                       {item.label}
                     </Link>
@@ -201,12 +206,18 @@ export function Navbar({ primaryNavigation, surface = "light" }: NavbarProps) {
               initial="hidden"
               animate="show"
               variants={{
-                show: { transition: { staggerChildren: 0.06, delayChildren: 0.12 } },
+                show: {
+                  transition: { staggerChildren: 0.06, delayChildren: 0.12 },
+                },
               }}
               className="flex-1 overflow-y-auto px-5 pb-10 pt-6"
             >
               {primaryNavigation?.map((item) => (
-                <MobileNavItem key={item.href} item={item} onNavigate={() => setOpen(false)} />
+                <MobileNavItem
+                  key={item.href}
+                  item={item}
+                  onNavigate={() => setOpen(false)}
+                />
               ))}
 
               <motion.div variants={mobileItemVariants} className="pt-8">
@@ -259,7 +270,10 @@ function MobileNavItem({
   }
 
   return (
-    <motion.div variants={mobileItemVariants} className="border-b border-white/15">
+    <motion.div
+      variants={mobileItemVariants}
+      className="border-b border-white/15"
+    >
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
@@ -285,7 +299,10 @@ function MobileNavItem({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.34, ease: [0.32, 0.72, 0, 1] }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.34,
+              ease: [0.32, 0.72, 0, 1],
+            }}
             className="overflow-hidden"
           >
             <ul className="grid gap-1 pb-4 ps-4">
@@ -296,7 +313,9 @@ function MobileNavItem({
                     onClick={onNavigate}
                     className="block border-s-2 border-cannon-500/60 ps-4 text-base leading-6 text-white/80 no-underline transition-colors hover:text-white"
                   >
-                    <span className="block py-2.5 font-semibold">{child.label}</span>
+                    <span className="block py-2.5 font-semibold">
+                      {child.label}
+                    </span>
                   </Link>
                 </li>
               ))}

@@ -1,4 +1,4 @@
-import type { Variants, Transition } from "framer-motion";
+import type { Transition, Variants } from "framer-motion";
 
 /** Premium easing curves shared across the site. */
 export const ease = {
@@ -47,7 +47,11 @@ export const fadeIn: Variants = {
 
 export const scaleIn: Variants = {
   hidden: { opacity: 0, scale: 1.06 },
-  show: { opacity: 1, scale: 1, transition: { duration: 1.2, ease: ease.expo } },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 1.2, ease: ease.expo },
+  },
 };
 
 /** Split a string into words for staggered word reveals. */

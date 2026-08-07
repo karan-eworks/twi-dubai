@@ -1,7 +1,9 @@
 import type { ApiMedia } from "@/data/types/common";
 import { clean } from "./clean";
 
-export function mediaUrl(media: string | ApiMedia | null | undefined): string | null {
+export function mediaUrl(
+  media: string | ApiMedia | null | undefined,
+): string | null {
   if (!media) return null;
   if (typeof media === "string") return clean(media);
 
@@ -20,7 +22,9 @@ export function mediaUrl(media: string | ApiMedia | null | undefined): string | 
   );
 }
 
-export function mediaAlt(media: string | ApiMedia | null | undefined): string | null {
+export function mediaAlt(
+  media: string | ApiMedia | null | undefined,
+): string | null {
   if (!media || typeof media === "string") return null;
 
   return (

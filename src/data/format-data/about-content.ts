@@ -1,13 +1,12 @@
+import DOMPurify from "isomorphic-dompurify";
 import { clean, getPlainText, normalizeBoolean } from "@/lib/clean";
 import { mediaAlt, mediaUrl } from "@/lib/media";
 import type { PageApiItem } from "../types/pages";
-import DOMPurify from "isomorphic-dompurify";
 
 const STATIC_ABOUT_TITLE = "About The Woolwich Institute Dubai";
 const STATIC_ABOUT_META_DESCRIPTION =
   "Learn about The Woolwich Institute Dubai, a KHDA-licensed and Pearson-approved vocational college delivering career-focused education in Dubai.";
 const STATIC_ABOUT_IMAGE = "/images/twi-hero-students.jpg";
-
 
 function isPublishedPage(page: PageApiItem | null | undefined) {
   if (!page) return false;
@@ -15,10 +14,10 @@ function isPublishedPage(page: PageApiItem | null | undefined) {
   return normalizeBoolean(page.publish);
 }
 
-
 export function getAboutMeta(page: PageApiItem | null | undefined) {
   const publishedPage = isPublishedPage(page) ? page : null;
-  const featuredImage = mediaUrl(publishedPage?.featured_image) ?? STATIC_ABOUT_IMAGE;
+  const featuredImage =
+    mediaUrl(publishedPage?.featured_image) ?? STATIC_ABOUT_IMAGE;
 
   return {
     title:
@@ -32,8 +31,6 @@ export function getAboutMeta(page: PageApiItem | null | undefined) {
     image: featuredImage,
   };
 }
-
-
 
 export function getAboutData(page: PageApiItem | null | undefined) {
   const publishedPage = isPublishedPage(page) ? page : null;

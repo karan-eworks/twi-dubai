@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Container } from "../shared/container";
+import Link from "next/link";
 import { ButtonLink } from "../shared/ButtonLink";
+import { Container } from "../shared/container";
 
 export interface Credential {
   /** Short mono label — what kind of credential this is. */
@@ -70,8 +70,8 @@ export function Accreditation({
               Accredited excellence, made practical
             </h2>
             <p className="mt-5 text-base leading-7 text-muted-foreground">
-              Every programme is regulated in Dubai, awarded in the UK, and built to
-              carry into work or further study.
+              Every programme is regulated in Dubai, awarded in the UK, and
+              built to carry into work or further study.
             </p>
           </div>
 
@@ -124,7 +124,6 @@ export function Accreditation({
             );
           })}
         </ul>
-
       </Container>
     </section>
   );

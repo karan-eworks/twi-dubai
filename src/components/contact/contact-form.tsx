@@ -1,10 +1,11 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowRight, Check, Loader2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
   FieldDescription,
@@ -16,8 +17,6 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -25,8 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "../ui/button";
-
 
 const ENQUIRY_TOPICS = [
   { value: "admissions", label: "Admissions and entry requirements" },
@@ -120,8 +119,8 @@ export function ContactForm() {
           Message received
         </h3>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">
-          Admissions replies within one working day. If it is urgent, WhatsApp is
-          faster.
+          Admissions replies within one working day. If it is urgent, WhatsApp
+          is faster.
         </p>
         <Button
           type="button"
@@ -195,7 +194,9 @@ export function ContactForm() {
                 className="rounded-sm"
                 {...register("phone")}
               />
-              <FieldDescription>Optional, but speeds up a reply.</FieldDescription>
+              <FieldDescription>
+                Optional, but speeds up a reply.
+              </FieldDescription>
               <FieldError>{errors.phone?.message}</FieldError>
             </Field>
           </FieldGroup>
@@ -257,7 +258,10 @@ export function ContactForm() {
               <FieldError>{errors.message?.message}</FieldError>
             </Field>
 
-            <Field orientation="horizontal" data-invalid={Boolean(errors.consent)}>
+            <Field
+              orientation="horizontal"
+              data-invalid={Boolean(errors.consent)}
+            >
               <Controller
                 control={control}
                 name="consent"
@@ -285,8 +289,8 @@ export function ContactForm() {
 
         {status === "error" ? (
           <p role="alert" className="text-sm leading-6 text-cannon-600">
-            Something went wrong sending your message. Please try again, or email
-            admissions directly.
+            Something went wrong sending your message. Please try again, or
+            email admissions directly.
           </p>
         ) : null}
 

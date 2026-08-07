@@ -1,6 +1,6 @@
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Container } from "../shared/container";
 
 export interface Pathway {
@@ -44,14 +44,19 @@ export function JourneyPathways({
   pathways?: Pathway[];
 }) {
   return (
-    <section aria-labelledby="journey-heading" className="pb-20 sm:pb-24 lg:pb-28">
+    <section
+      aria-labelledby="journey-heading"
+      className="pb-20 sm:pb-24 lg:pb-28"
+    >
       {/* Full-bleed band, inner content on the same container grid as every
           other section. Extra bottom padding leaves room for the tiles to
           overlap into it. */}
       <div className="bg-navy-500 pb-32 pt-16 text-white sm:pb-36 sm:pt-20">
         <Container>
           <div className="max-w-2xl">
-            <span className="eyebrow eyebrow-invert">September 2026 intake</span>
+            <span className="eyebrow eyebrow-invert">
+              September 2026 intake
+            </span>
             <h2
               id="journey-heading"
               className="mt-4 text-balance font-heading text-4xl font-normal leading-[1.05] tracking-tight sm:text-5xl"
@@ -59,8 +64,8 @@ export function JourneyPathways({
               Your journey starts here
             </h2>
             <p className="mt-5 max-w-xl text-base leading-7 text-navy-200">
-              Two routes into the institute: how the application works, and how to
-              pay for it.
+              Two routes into the institute: how the application works, and how
+              to pay for it.
             </p>
           </div>
         </Container>
@@ -93,7 +98,9 @@ export function JourneyPathways({
                       panel's exact box and expands past every edge of the tile,
                       which clips it. No measuring needed. */}
                   <div className="relative max-w-md p-6 before:absolute before:inset-0 before:-z-10 before:bg-navy-500/95 before:transition-[inset] before:duration-700 before:ease-[cubic-bezier(0.32,0.72,0,1)] before:content-[''] group-hover:before:-inset-[200%] sm:p-8">
-                    <span className="eyebrow eyebrow-invert">{pathway.label}</span>
+                    <span className="eyebrow eyebrow-invert">
+                      {pathway.label}
+                    </span>
 
                     <h3 className="mt-3 font-heading text-3xl font-normal leading-tight tracking-tight text-white sm:text-4xl">
                       {pathway.title}

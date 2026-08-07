@@ -1,4 +1,3 @@
-
 import { CourseCardsSection } from "@/components/cards/course-section";
 import { LatestEvents } from "@/components/home/event-section";
 import { Hero } from "@/components/home/hero-section";
@@ -26,6 +25,5 @@ export default function Home() {
       <Insights />
       <CourseCardsSection />
     </div>
-   
   );
 }

@@ -1,6 +1,6 @@
-import { clean, normalizeBoolean } from "@/lib/clean";
-import type { FormFieldApiItem, FormApiItem } from "@/data/types/forms";
 import type { CourseApiItem } from "@/data/types/courses";
+import type { FormApiItem, FormFieldApiItem } from "@/data/types/forms";
+import { clean, normalizeBoolean } from "@/lib/clean";
 
 export type ApplyFieldType =
   | "text"
@@ -63,7 +63,8 @@ function fieldOptions(field: FormFieldApiItem): ApplyFieldOption[] {
 export function normalizeEnrolForm(form: FormApiItem): ApplyFormConfig {
   const fields = form.fields
     .map((field) => {
-      const required = field.required !== undefined && normalizeBoolean(field.required);
+      const required =
+        field.required !== undefined && normalizeBoolean(field.required);
       return {
         slug: clean(field.slug) ?? "",
         label: clean(field.name) ?? "",

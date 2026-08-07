@@ -2,10 +2,10 @@
 /** biome-ignore-all lint/a11y/noAriaHiddenOnFocusable: <explanation> */
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -13,8 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Container } from "../shared/container";
 import { ButtonLink } from "../shared/ButtonLink";
+import { Container } from "../shared/container";
 
 export interface HeroProgramme {
   id: string;
@@ -97,7 +97,9 @@ export function Hero({
   proof?: HeroProof[];
   media?: HeroMedia;
 }) {
-  const [selectedId, setSelectedId] = useState<string | null>(programmes[0]?.id ?? null);
+  const [selectedId, setSelectedId] = useState<string | null>(
+    programmes[0]?.id ?? null,
+  );
   const reduceMotion = useReducedMotion();
   const selected = programmes.find((p) => p.id === selectedId) ?? programmes[0];
 
@@ -109,7 +111,10 @@ export function Hero({
     show: {
       y: 0,
       opacity: 1,
-      transition: { duration: reduceMotion ? 0 : 0.7, ease: "easeOut" as const },
+      transition: {
+        duration: reduceMotion ? 0 : 0.7,
+        ease: "easeOut" as const,
+      },
     },
   };
 
@@ -185,8 +190,8 @@ export function Hero({
               variants={rise}
               className="mt-6 max-w-lg border-s-2 border-cannon-500 ps-5 text-base leading-7 text-white/80 sm:text-lg sm:leading-8"
             >
-              KHDA-licensed, Pearson-approved study in Dubai, with scholarships and UK
-              progression routes.
+              KHDA-licensed, Pearson-approved study in Dubai, with scholarships
+              and UK progression routes.
             </motion.p>
           </div>
 
@@ -271,7 +276,13 @@ export function Hero({
                 Enrol now
                 <ArrowRight aria-hidden="true" />
               </ButtonLink>
-              <ButtonLink href="/contact" intent="secondary" surface="dark" size="lg" fullWidth>
+              <ButtonLink
+                href="/contact"
+                intent="secondary"
+                surface="dark"
+                size="lg"
+                fullWidth
+              >
                 Contact admissions
               </ButtonLink>
             </div>
@@ -283,13 +294,19 @@ export function Hero({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: reduceMotion ? 0 : 0.6, delay: reduceMotion ? 0 : 0.7 }}
+        transition={{
+          duration: reduceMotion ? 0 : 0.6,
+          delay: reduceMotion ? 0 : 0.7,
+        }}
         className="border-t border-white/15 bg-navy-950/50 backdrop-blur-md"
       >
         <Container>
           <ul className="grid grid-cols-2 divide-white/15 sm:grid-cols-4 sm:divide-x">
             {proof.map((item) => (
-              <li key={item.label} className="px-1 py-5 first:ps-0 sm:px-5 sm:first:ps-0">
+              <li
+                key={item.label}
+                className="px-1 py-5 first:ps-0 sm:px-5 sm:first:ps-0"
+              >
                 <span className="block text-sm font-semibold text-white">
                   {item.label}
                 </span>

@@ -1,5 +1,5 @@
 /** biome-ignore-all assist/source/organizeImports: <explanation> */
-import { AmenityItem } from "@/lib/extractAmenities";
+import type { AmenityItem } from "@/lib/extractAmenities";
 import type { LucideIcon } from "lucide-react";
 import {
   BedDouble,
@@ -22,7 +22,6 @@ import {
   Waves,
   Wifi,
 } from "lucide-react";
-
 
 /** First match wins, so put the more specific keywords first. */
 const ICON_RULES: Array<[RegExp, LucideIcon]> = [

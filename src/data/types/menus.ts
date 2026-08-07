@@ -1,6 +1,5 @@
 import type { ApiListResponse } from "./common";
 
-
 export type MenuListApiResponse = ApiListResponse<MenuApiSummary>;
 
 export type MenuDetailApiResponse =

@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
-import Image from "next/image";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Play } from "lucide-react";
-import { Container } from "../shared/container";
+import Image from "next/image";
+import { useCallback, useRef, useState } from "react";
 import { ButtonLink } from "../shared/ButtonLink";
+import { Container } from "../shared/container";
 
 export interface Testimonial {
   id: string;
@@ -54,11 +54,20 @@ export function VideoTestimonials({
           </div>
 
           <div className="hidden items-center gap-2 sm:flex">
-            <RailButton label="Previous testimonials" onClick={() => scrollRail(-1)}>
-              <ArrowLeft className="size-4 rtl:-scale-x-100" aria-hidden="true" />
+            <RailButton
+              label="Previous testimonials"
+              onClick={() => scrollRail(-1)}
+            >
+              <ArrowLeft
+                className="size-4 rtl:-scale-x-100"
+                aria-hidden="true"
+              />
             </RailButton>
             <RailButton label="Next testimonials" onClick={() => scrollRail(1)}>
-              <ArrowRight className="size-4 rtl:-scale-x-100" aria-hidden="true" />
+              <ArrowRight
+                className="size-4 rtl:-scale-x-100"
+                aria-hidden="true"
+              />
             </RailButton>
           </div>
         </div>
@@ -132,7 +141,9 @@ export function VideoTestimonials({
                         ) : null}
 
                         <div className="pointer-events-none absolute inset-x-0 bottom-0 p-4 text-white">
-                          <p className="font-heading text-xl leading-tight">{item.name}</p>
+                          <p className="font-heading text-xl leading-tight">
+                            {item.name}
+                          </p>
                           <p className="datum mt-1 text-[11px] uppercase tracking-[0.14em] text-white/70">
                             {item.programme}
                           </p>
@@ -169,7 +180,9 @@ export function VideoTestimonials({
             More on Instagram
             <ArrowUpRight aria-hidden="true" />
           </ButtonLink>
-          <p className="datum text-xs text-muted-foreground">@{instagramHandle}</p>
+          <p className="datum text-xs text-muted-foreground">
+            @{instagramHandle}
+          </p>
         </div>
       </Container>
     </section>

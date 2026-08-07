@@ -59,7 +59,6 @@ export interface ApiMetaTag {
   updated_at: string;
 }
 
-
 export interface SectionIntro {
   label?: string;
   heading?: string;

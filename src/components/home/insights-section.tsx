@@ -1,8 +1,8 @@
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Container } from "../shared/container";
 import { ButtonLink } from "../shared/ButtonLink";
+import { Container } from "../shared/container";
 
 export interface Article {
   id: string;
@@ -35,7 +35,8 @@ const defaultArticles: Article[] = [
   {
     id: "vocational-examples",
     title: "BTEC, HND, or diploma — which one fits you?",
-    excerpt: "The three routes side by side, with the entry points and exit points for each.",
+    excerpt:
+      "The three routes side by side, with the entry points and exit points for each.",
     category: "Choosing a course",
     readingMinutes: 8,
     date: "2026-06-26",
@@ -45,7 +46,8 @@ const defaultArticles: Article[] = [
   {
     id: "grading-system",
     title: "The BTEC grading system explained: pass, merit, distinction",
-    excerpt: "How grades are calculated across units, and what they convert to in UCAS points.",
+    excerpt:
+      "How grades are calculated across units, and what they convert to in UCAS points.",
     category: "Assessment",
     readingMinutes: 11,
     date: "2026-06-18",
@@ -55,7 +57,8 @@ const defaultArticles: Article[] = [
   {
     id: "student-visa",
     title: "Student visas in the UAE: documents, timelines, and costs",
-    excerpt: "The paperwork sequence for international students, and how long each stage takes.",
+    excerpt:
+      "The paperwork sequence for international students, and how long each stage takes.",
     category: "Admissions",
     readingMinutes: 6,
     date: "2026-06-04",
@@ -73,12 +76,19 @@ const fmtDate = (date: string) =>
     year: "numeric",
   }).format(new Date(date));
 
-export function Insights({ articles = defaultArticles }: { articles?: Article[] }) {
+export function Insights({
+  articles = defaultArticles,
+}: {
+  articles?: Article[];
+}) {
   const [lead, ...rest] = articles;
   if (!lead) return null;
 
   return (
-    <section aria-labelledby="insights-heading" className="py-20 sm:py-24 lg:py-28">
+    <section
+      aria-labelledby="insights-heading"
+      className="py-20 sm:py-24 lg:py-28"
+    >
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-xl">

@@ -17,7 +17,6 @@
  * Swap the four props per page and the identity holds.
  */
 
-import { useId, useRef } from "react";
 import {
   motion,
   useReducedMotion,
@@ -26,6 +25,7 @@ import {
   type Variants,
 } from "framer-motion";
 import Image from "next/image";
+import { useId, useRef } from "react";
 import TypeSetComponent from "./typeset-component";
 
 /* ── Brand tokens ───────────────────────────────────────────── */
@@ -36,9 +36,11 @@ const STONE = "#EDEAE3";
 const BRASS = "#B99653";
 
 /* Shield silhouette, normalised (0–1) for objectBoundingBox clipping */
-const SHIELD_UNIT = "M0,0 H1 V0.52 C1,0.78 0.82,0.93 0.5,1 C0.18,0.93 0,0.78 0,0.52 Z";
+const SHIELD_UNIT =
+  "M0,0 H1 V0.52 C1,0.78 0.82,0.93 0.5,1 C0.18,0.93 0,0.78 0,0.52 Z";
 /* Same silhouette in a 100×125 viewBox, for the drawn outline */
-const SHIELD_PATH = "M0,0 H100 V65 C100,97.5 82,116 50,125 C18,116 0,97.5 0,65 Z";
+const SHIELD_PATH =
+  "M0,0 H100 V65 C100,97.5 82,116 50,125 C18,116 0,97.5 0,65 Z";
 
 export type PageHeroProps = {
   /** Page name shown in the red chief, e.g. "About the Institute" */
@@ -150,23 +152,23 @@ export default function PageHero({
         {/* ── Text column ─────────────────────────────────── */}
         <div className="lg:col-span-7 lg:[direction:ltr]">
           {/* Chief */}
-            {eyebrow && (
-                    <motion.div variants={rise} className="mb-8 inline-flex">
-                        <div
-                        className="relative flex items-center gap-3 px-5 py-2.5"
-                        style={{ backgroundColor: RED }}
-                        >
-                        <span
-                            aria-hidden
-                            className="block h-[9px] w-[9px] rotate-45"
-                            style={{ backgroundColor: BRASS }}
-                        />
-                        <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white sm:text-xs">
-                            {eyebrow}
-                        </span>
-                        </div>
-                    </motion.div>
-            )}
+          {eyebrow && (
+            <motion.div variants={rise} className="mb-8 inline-flex">
+              <div
+                className="relative flex items-center gap-3 px-5 py-2.5"
+                style={{ backgroundColor: RED }}
+              >
+                <span
+                  aria-hidden
+                  className="block h-[9px] w-[9px] rotate-45"
+                  style={{ backgroundColor: BRASS }}
+                />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white sm:text-xs">
+                  {eyebrow}
+                </span>
+              </div>
+            </motion.div>
+          )}
 
           {/* Headline */}
           <h1
@@ -175,7 +177,10 @@ export default function PageHero({
             style={{ color: NAVY_DEEP }}
           >
             {words.map((word, i) => (
-              <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-[0.06em] -mb-4 ">
+              <span
+                key={`${word}-${i}`}
+                className="inline-block overflow-hidden pb-[0.06em] -mb-4 "
+              >
                 <motion.span variants={rise} className="inline-block">
                   {word}
                   {i < words.length - 1 ? "\u00A0" : ""}
@@ -186,31 +191,37 @@ export default function PageHero({
 
           {/* Field — bleeds off the left edge of the viewport */}
           {body && (
-              <div className="relative mt-10 lg:mt-14">
+            <div className="relative mt-10 lg:mt-14">
+              <motion.div
+                aria-hidden
+                variants={wipeX}
+                className="absolute inset-y-0 right-0 left-[-100vw] origin-left"
+                style={{
+                  backgroundColor: NAVY,
+                  clipPath:
+                    "polygon(0 0, 100% 0, calc(100% - 72px) 100%, 0 100%)",
+                }}
+              />
+              <div className="relative py-10 pr-24 sm:py-12">
                 <motion.div
-                  aria-hidden
-                  variants={wipeX}
-                  className="absolute inset-y-0 right-0 left-[-100vw] origin-left"
-                  style={{
-                    backgroundColor: NAVY,
-                    clipPath: "polygon(0 0, 100% 0, calc(100% - 72px) 100%, 0 100%)",
-                  }}
-                />
-                <div className="relative py-10 pr-24 sm:py-12">
-                  <motion.div
-                    variants={fade}
-                    className="line-clamp-2 max-w-[65ch] text-[clamp(1rem,1.15vw,1.175rem)] leading-[1.85] text-white/90! text-opacity-90"
-                  >
-                    {body ? (
-                      
-                    <TypeSetComponent content={<div className="text-white/90!"  dangerouslySetInnerHTML={{ __html: body }} />} />
-                    ) : null}
-                  </motion.div>
-                </div>
+                  variants={fade}
+                  className="line-clamp-2 max-w-[65ch] text-[clamp(1rem,1.15vw,1.175rem)] leading-[1.85] text-white/90! text-opacity-90"
+                >
+                  {body ? (
+                    <TypeSetComponent
+                      content={
+                        <div
+                          className="text-white/90!"
+                          dangerouslySetInnerHTML={{ __html: body }}
+                        />
+                      }
+                    />
+                  ) : null}
+                </motion.div>
               </div>
-            )}
-          
-      </div>
+            </div>
+          )}
+        </div>
 
         {/* ── Escutcheon ──────────────────────────────────── */}
         <div className="lg:col-span-5 lg:[direction:ltr]">
@@ -239,7 +250,10 @@ export default function PageHero({
             {/* The photograph, cut to the shield */}
             <div
               className="relative aspect-[4/5] w-full"
-              style={{ clipPath: `url(#${clipId})`, backgroundColor: NAVY_DEEP }}
+              style={{
+                clipPath: `url(#${clipId})`,
+                backgroundColor: NAVY_DEEP,
+              }}
             >
               <Image
                 src={imageSrc}

@@ -1,4 +1,3 @@
-import { apiFetch } from "@/lib/api";
 import type {
   CmsPageDisplayData,
   CmsPageMeta,
@@ -7,8 +6,14 @@ import type {
   PageDetailApiResponse,
   PageListApiResponse,
 } from "@/data/types/pages";
-import { clean, getPlainText, normalizeBoolean, sanitizeHtml } from "@/lib/clean";
-import { mediaUrl, mediaAlt } from "@/lib/media";
+import { apiFetch } from "@/lib/api";
+import {
+  clean,
+  getPlainText,
+  normalizeBoolean,
+  sanitizeHtml,
+} from "@/lib/clean";
+import { mediaAlt, mediaUrl } from "@/lib/media";
 import type { ApiMedia } from "../types/common";
 
 function isPageApiItem(value: unknown): value is PageApiItem {
@@ -51,8 +56,9 @@ export function getPublishedCmsPageStaticParams(items: PageApiItem[]) {
     .map((page) => ({ slug: page.slug }));
 }
 
-
-function getMediaAsset(media: string | ApiMedia | null | undefined): MediaAsset {
+function getMediaAsset(
+  media: string | ApiMedia | null | undefined,
+): MediaAsset {
   return {
     src: mediaUrl(media) ?? "",
     alt: mediaAlt(media) ?? "",
@@ -61,14 +67,12 @@ function getMediaAsset(media: string | ApiMedia | null | undefined): MediaAsset 
 }
 
 export function getCmsPageDisplayData(page: PageApiItem): CmsPageDisplayData {
-  const intro =
-    getPlainText(page.excerpt) ||
-    getPlainText(page.description)
+  const intro = getPlainText(page.excerpt) || getPlainText(page.description);
 
   const gallery = (page.medias ?? [])
     .map((media) => ({
       src: mediaUrl(media),
-      alt: mediaAlt(media) ?? clean(page.name) 
+      alt: mediaAlt(media) ?? clean(page.name),
     }))
     .filter((media): media is MediaAsset => Boolean(media.src));
 

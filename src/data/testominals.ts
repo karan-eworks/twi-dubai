@@ -1,5 +1,4 @@
-import { Testimonial } from "@/components/home/videos-sections";
-
+import type { Testimonial } from "@/components/home/videos-sections";
 
 /** Portrait crops sized for the 9:16 card. Swap for real poster frames
  *  pulled from each video once the files are exported. */

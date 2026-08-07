@@ -12,11 +12,21 @@ export interface NormalizeOptions {
    * resolve against the Next app and 404.
    */
   mediaBaseUrl?: string;
+  /**
+   * Whether a table's first row may be promoted into `<thead>`. True for
+   * article prose, where editors habitually forget the header. False for
+   * content whose tables are plain lists — course module tables open on a
+   * real module, and promoting it would hide a row inside the header band.
+   */
+  promoteTableHeader?: boolean;
 }
 
 export function normalizeCmsHtml(
   raw?: string | null,
-  { mediaBaseUrl = process.env.NEXT_PUBLIC_CMS_MEDIA_URL }: NormalizeOptions = {},
+  {
+    mediaBaseUrl = process.env.NEXT_PUBLIC_CMS_MEDIA_URL,
+    promoteTableHeader = true,
+  }: NormalizeOptions = {},
 ): string {
   if (!raw) return "";
 
@@ -60,24 +70,30 @@ export function normalizeCmsHtml(
   // CMS tables often ship the header row as plain <td> inside <tbody>,
   // which leaves the styled <thead> band empty. Promote the first row
   // when a table has no thead of its own.
-  html = html.replace(
-    /<table\b([^>]*)>\s*(?:<tbody[^>]*>\s*)?(<tr[\s\S]*?<\/tr>)/gi,
-    (match, attrs: string, firstRow: string) => {
-      if (/<thead/i.test(match)) return match;
-      const headerRow = firstRow.replace(/<td\b/gi, "<th").replace(/<\/td>/gi, "</th>");
-      return `<table${attrs}><thead>${headerRow}</thead><tbody>`;
-    },
-  );
+  if (promoteTableHeader) {
+    html = html.replace(
+      /<table\b([^>]*)>\s*(?:<tbody[^>]*>\s*)?(<tr[\s\S]*?<\/tr>)/gi,
+      (match, attrs: string, firstRow: string) => {
+        if (/<thead/i.test(match)) return match;
+        const headerRow = firstRow
+          .replace(/<td\b/gi, "<th")
+          .replace(/<\/td>/gi, "</th>");
+        return `<table${attrs}><thead>${headerRow}</thead><tbody>`;
+      },
+    );
+  }
 
   // Wide tables get a scroll container so they can exceed the prose
   // measure without pushing the page sideways.
-  html = html.replace(
-    /<table\b/gi,
-    '<div class="table-scroll"><table',
-  ).replace(/<\/table>/gi, "</table></div>");
+  html = html
+    .replace(/<table\b/gi, '<div class="table-scroll"><table')
+    .replace(/<\/table>/gi, "</table></div>");
 
   // CMS images bypass next/image, so give them the loading hints by hand.
-  html = html.replace(/<img\b(?![^>]*\bloading=)/gi, '<img loading="lazy" decoding="async"');
+  html = html.replace(
+    /<img\b(?![^>]*\bloading=)/gi,
+    '<img loading="lazy" decoding="async"',
+  );
 
   return html;
 }

@@ -2,11 +2,10 @@ import type { SectionIntro } from "@/data/types/common";
 import { cn } from "@/lib/utils";
 import { Container } from "./container";
 
-
 type SectionTone = "white" | "soft" | "navy" | "burgundy";
 type IntroLayout = "stacked" | "split" | "offset";
 
-interface SectionShellProps  {
+interface SectionShellProps {
   id: string;
   intro: SectionIntro;
   tone?: SectionTone;
@@ -36,7 +35,11 @@ export function SectionShell({
     <section
       id={id}
       aria-labelledby={`${id}-heading`}
-      className={cn("scroll-mt-24 py-[clamp(4.5rem,9vw,9rem)]", toneClass[tone], className)}
+      className={cn(
+        "scroll-mt-24 py-[clamp(4.5rem,9vw,9rem)]",
+        toneClass[tone],
+        className,
+      )}
     >
       <Container>
         <div

@@ -1,9 +1,8 @@
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Container } from "../shared/container";
 import { ButtonLink } from "../shared/ButtonLink";
-
+import { Container } from "../shared/container";
 
 export interface ProgrammeCard {
   code: string;
@@ -67,7 +66,10 @@ export function ProgrammeGrid({
   programmes?: ProgrammeCard[];
 }) {
   return (
-    <section aria-labelledby="programmes-heading" className="py-20 sm:py-24 lg:py-28">
+    <section
+      aria-labelledby="programmes-heading"
+      className="py-20 sm:py-24 lg:py-28"
+    >
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-2xl">

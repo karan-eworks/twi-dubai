@@ -50,12 +50,14 @@ export function buttonClasses({
     intentClass[surface][intent],
     fullWidth && "w-full",
     className,
-    "text-nowrap"
+    "text-nowrap",
   );
 }
 
 function ButtonContent({ children }: { children: ReactNode }) {
-  return <span className="twi-button-content flex items-center">{children}</span>;
+  return (
+    <span className="twi-button-content flex items-center">{children}</span>
+  );
 }
 
 export interface ButtonProps

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   ArrowUpRight,
   Clock,
@@ -8,11 +7,11 @@ import {
   MessageCircle,
   Phone,
 } from "lucide-react";
-import { Container } from "@/components/shared/container";
+import Link from "next/link";
 import { ContactForm } from "@/components/contact/contact-form";
 import { ButtonLink } from "@/components/shared/ButtonLink";
+import { Container } from "@/components/shared/container";
 import PageHero from "@/components/shared/page-hero";
-
 
 const CAMPUS = {
   name: "The Woolwich Institute Dubai",
@@ -76,7 +75,10 @@ export default function ContactPage() {
         imageAlt={CONTACT_HERO.media.alt}
       />
       {/* ---- Header ---- */}
-      <section aria-labelledby="contact-heading" className="pb-4 pt-32 sm:pt-36">
+      <section
+        aria-labelledby="contact-heading"
+        className="pb-4 pt-32 sm:pt-36"
+      >
         <Container>
           <div className="max-w-2xl">
             <span className="eyebrow">Contact</span>
@@ -87,8 +89,9 @@ export default function ContactPage() {
               Start your journey with us
             </h1>
             <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
-              Admissions can talk through entry requirements, fees, and progression
-              routes — or book you a campus visit in Dubai Knowledge Park.
+              Admissions can talk through entry requirements, fees, and
+              progression routes — or book you a campus visit in Dubai Knowledge
+              Park.
             </p>
           </div>
         </Container>
@@ -160,8 +163,8 @@ export default function ContactPage() {
                 Questions? Ask admissions
               </h2>
               <p className="mt-4 max-w-prose text-base leading-7 text-muted-foreground">
-                The more you tell us about where you are applying from and what you
-                want to study, the more useful the reply.
+                The more you tell us about where you are applying from and what
+                you want to study, the more useful the reply.
               </p>
 
               <div className="mt-8">
@@ -186,8 +189,8 @@ export default function ContactPage() {
                     WhatsApp admissions
                   </p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    Quickest for quick questions — fees, intakes, or whether your
-                    qualifications meet entry.
+                    Quickest for quick questions — fees, intakes, or whether
+                    your qualifications meet entry.
                   </p>
 
                   <div className="mt-5 grid gap-2">
@@ -215,7 +218,10 @@ export default function ContactPage() {
       </section>
 
       {/* ---- Map ---- */}
-      <section aria-labelledby="map-heading" className="pb-20 sm:pb-24 lg:pb-28">
+      <section
+        aria-labelledby="map-heading"
+        className="pb-20 sm:pb-24 lg:pb-28"
+      >
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div className="max-w-xl">

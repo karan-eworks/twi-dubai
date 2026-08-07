@@ -1,8 +1,20 @@
 import { apiFetch } from "@/lib/api";
 import type { CourseDepartmentApiItem } from "../types/course-departments";
-import type { MenuApiDetail, MenuListApiResponse, MenuDetailApiResponse, NavigationItem, FooterGroup } from "../types/menus";
-import { isVisibleCourseCategory, getCoursesCategories } from "./course-departments";
-import { menusToFooterGroups, menuToNavigationItems } from "./menu-normalization";
+import type {
+  FooterGroup,
+  MenuApiDetail,
+  MenuDetailApiResponse,
+  MenuListApiResponse,
+  NavigationItem,
+} from "../types/menus";
+import {
+  getCoursesCategories,
+  isVisibleCourseCategory,
+} from "./course-departments";
+import {
+  menusToFooterGroups,
+  menuToNavigationItems,
+} from "./menu-normalization";
 
 const MENU_FETCH_OPTIONS = {
   next: {
@@ -28,7 +40,9 @@ export async function getMenus() {
   return apiFetch<MenuListApiResponse>("/menus", MENU_FETCH_OPTIONS);
 }
 
-export async function getMenuBySlug(slug: string): Promise<MenuApiDetail | null> {
+export async function getMenuBySlug(
+  slug: string,
+): Promise<MenuApiDetail | null> {
   const response = await apiFetch<MenuDetailApiResponse>(
     `/menus/${encodeURIComponent(slug)}`,
     MENU_FETCH_OPTIONS,
@@ -63,21 +77,22 @@ function replaceStudyCoursesWithCategories(
   return groups.map((group) =>
     group.title === "Study & Courses"
       ? {
-        ...group,
-        links: categoryLinks,
-      }
+          ...group,
+          links: categoryLinks,
+        }
       : group,
   );
 }
 
 export async function getLayoutMenus() {
   try {
-    const [mainMenu, belowFooterMenu, courseCategories, ...footerMenus] = await Promise.all([
-      getMenuBySlug("main-menu"),
-      getMenuBySlug("below-footer"),
-      getCoursesCategories(),
-      ...FOOTER_MENU_SLUGS.map((slug) => getMenuBySlug(slug)),
-    ]);
+    const [mainMenu, belowFooterMenu, courseCategories, ...footerMenus] =
+      await Promise.all([
+        getMenuBySlug("main-menu"),
+        getMenuBySlug("below-footer"),
+        getCoursesCategories(),
+        ...FOOTER_MENU_SLUGS.map((slug) => getMenuBySlug(slug)),
+      ]);
     const resolvedFooterGroups = menusToFooterGroups(footerMenus);
 
     return {
@@ -90,7 +105,7 @@ export async function getLayoutMenus() {
     };
   } catch {
     return {
-      primaryNavigation : [],
+      primaryNavigation: [],
       footerGroups: [],
       bottomNavigation: [],
     };

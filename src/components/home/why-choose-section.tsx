@@ -1,9 +1,8 @@
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Container } from "../shared/container";
 import { ButtonLink } from "../shared/ButtonLink";
-
+import { Container } from "../shared/container";
 
 export interface Advantage {
   label: string;
@@ -54,7 +53,10 @@ export function WhyChoose({
   advantages?: Advantage[];
 }) {
   return (
-    <section aria-labelledby="why-choose-heading" className="py-20 sm:py-24 lg:py-28">
+    <section
+      aria-labelledby="why-choose-heading"
+      className="py-20 sm:py-24 lg:py-28"
+    >
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-2xl">
@@ -79,7 +81,10 @@ export function WhyChoose({
             const isBar = item.caption === "bar";
 
             return (
-              <li key={item.title} className={offsetClass[index % offsetClass.length]}>
+              <li
+                key={item.title}
+                className={offsetClass[index % offsetClass.length]}
+              >
                 <Link
                   href={item.href}
                   className="group block no-underline transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
@@ -121,7 +126,13 @@ export function WhyChoose({
   );
 }
 
-function Caption({ item, rounded = false }: { item: Advantage; rounded?: boolean }) {
+function Caption({
+  item,
+  rounded = false,
+}: {
+  item: Advantage;
+  rounded?: boolean;
+}) {
   return (
     <div
       className={`flex items-end justify-between gap-4 bg-navy-500 p-5 text-white transition-colors duration-500 group-hover:bg-cannon-500 ${

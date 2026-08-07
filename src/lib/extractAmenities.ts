@@ -13,7 +13,10 @@ const attr = (tag: string, name: string) =>
   new RegExp(`${name}="([^"]*)"`, "i").exec(tag)?.[1];
 
 const stripTags = (value: string) =>
-  value.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  value
+    .replace(/<[^>]+>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 
 /**
  * Lifts the "icon + heading" cells out of a rich-text blob so they can be

@@ -1,14 +1,13 @@
 "use client";
 
-import * as React from "react";
-import * as RPNInput from "react-phone-number-input";
-import flags from "react-phone-number-input/flags";
 import * as Popover from "@radix-ui/react-popover";
 import { Command } from "cmdk";
 import { CheckIcon, ChevronsUpDown, Globe } from "lucide-react";
-
-import { cn } from "@/lib/utils";
+import * as React from "react";
+import * as RPNInput from "react-phone-number-input";
+import flags from "react-phone-number-input/flags";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 type Country = RPNInput.Country;
 type FlagProps = {
@@ -143,24 +142,25 @@ export type PhoneInputProps = Omit<
   };
 
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
-  React.forwardRef<
-    React.ElementRef<typeof RPNInput.default>,
-    PhoneInputProps
-  >(({ className, onChange, value, ...props }, ref) => {
-    return (
-      <RPNInput.default
-        ref={ref}
-        className={cn("flex w-full", className)}
-        flagComponent={FlagComponent}
-        countrySelectComponent={CountrySelect}
-        inputComponent={InputComponent}
-        smartCaret={false}
-        value={value || undefined}
-        onChange={(nextValue) => onChange?.(nextValue || ("" as RPNInput.Value))}
-        {...props}
-      />
-    );
-  });
+  React.forwardRef<React.ElementRef<typeof RPNInput.default>, PhoneInputProps>(
+    ({ className, onChange, value, ...props }, ref) => {
+      return (
+        <RPNInput.default
+          ref={ref}
+          className={cn("flex w-full", className)}
+          flagComponent={FlagComponent}
+          countrySelectComponent={CountrySelect}
+          inputComponent={InputComponent}
+          smartCaret={false}
+          value={value || undefined}
+          onChange={(nextValue) =>
+            onChange?.(nextValue || ("" as RPNInput.Value))
+          }
+          {...props}
+        />
+      );
+    },
+  );
 PhoneInput.displayName = "PhoneInput";
 
 export { PhoneInput };

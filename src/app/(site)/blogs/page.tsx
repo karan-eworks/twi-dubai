@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { BlogCardSkeletonGrid } from "@/components/blogs/blog-card-skeleton";
 import { BlogIndex } from "@/components/blogs/blog-index";
+import { CardSkeletonGrid } from "@/components/shared/card-skeleton";
 
 const fallbackOpenGraphImage = "/images/twi-classroom-study.jpg";
 
@@ -31,7 +31,9 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   return (
-    <Suspense fallback={<BlogCardSkeletonGrid />}>
+    <Suspense
+      fallback={<CardSkeletonGrid count={15} mediaClassName="aspect-16/10" />}
+    >
       <BlogIndex />
     </Suspense>
   );

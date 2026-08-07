@@ -1,15 +1,18 @@
+import { ArrowUpRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import { Container } from "../shared/container";
 import { getLayoutMenus } from "@/data/api/menus";
 import { ButtonLink } from "../shared/ButtonLink";
+import { Container } from "../shared/container";
 import { NewsletterForm } from "./news-letter-form";
-
 
 const contactLinks = [
   { label: "+971 52 898 3382", href: "tel:+971528983382", icon: Phone },
-  { label: "info@woolwich.ac.ae", href: "mailto:info@woolwich.ac.ae", icon: Mail },
+  {
+    label: "info@woolwich.ac.ae",
+    href: "mailto:info@woolwich.ac.ae",
+    icon: Mail,
+  },
   {
     label: "G-35, Block 2A, Dubai Knowledge Park",
     href: "/contact",
@@ -65,7 +68,9 @@ export async function Footer() {
             >
               Study British-quality vocational programs from Dubai.
             </h2>
-            <p className={`mt-5 max-w-2xl text-base leading-8 ${bodyText} sm:text-lg`}>
+            <p
+              className={`mt-5 max-w-2xl text-base leading-8 ${bodyText} sm:text-lg`}
+            >
               Get guidance on courses, scholarships, documents, and progression
               routes before you apply.
             </p>
@@ -74,15 +79,15 @@ export async function Footer() {
           <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
             <ButtonLink
               href="/apply"
-                aria-label="Apply now"
+              aria-label="Apply now"
               intent="primary"
               surface="dark"
             >
-                Apply now
+              Apply now
             </ButtonLink>
             <ButtonLink
-                href="https://wa.me/971528983382"
-                aria-label="WhatsApp admissions"
+              href="https://wa.me/971528983382"
+              aria-label="WhatsApp admissions"
               intent="secondary"
               surface="dark"
             >
@@ -95,7 +100,7 @@ export async function Footer() {
         <div className="grid gap-10 py-10 lg:grid-cols-[1.08fr_1.35fr_0.92fr] lg:gap-12 xl:gap-16">
           <section aria-labelledby="footer-brand-heading" className="min-w-0">
             <h2 id="footer-brand-heading" className="sr-only">
-                The WoolWich College Dubai
+              The WoolWich College Dubai
             </h2>
             <Link
               href="/"
@@ -113,7 +118,8 @@ export async function Footer() {
             </Link>
 
             <p className={`mt-7 max-w-sm text-base leading-8 ${bodyText}`}>
-              The WoolWich College Dubai is a leading provider of British-quality vocational education in the UAE.
+              The WoolWich College Dubai is a leading provider of
+              British-quality vocational education in the UAE.
             </p>
 
             <ul className="mt-7 space-y-3">
@@ -138,7 +144,10 @@ export async function Footer() {
             </ul>
           </section>
 
-          <nav aria-label="Footer navigation" className="grid gap-8 sm:grid-cols-3">
+          <nav
+            aria-label="Footer navigation"
+            className="grid gap-8 sm:grid-cols-3"
+          >
             {footerGroups.map((group) => (
               <div key={group.title}>
                 <h2 className="text-xs font-medium uppercase tracking-[0.14em] text-white/50 font-mono">
@@ -160,7 +169,10 @@ export async function Footer() {
             ))}
           </nav>
 
-          <aside aria-labelledby="footer-newsletter-heading" className="min-w-0">
+          <aside
+            aria-labelledby="footer-newsletter-heading"
+            className="min-w-0"
+          >
             <h2
               id="footer-newsletter-heading"
               className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-white/50"
@@ -233,7 +245,10 @@ export async function Footer() {
               </Link>
             ))}
 
-            <span className={`hidden h-4 w-px bg-white/20 md:block`} aria-hidden="true" />
+            <span
+              className={`hidden h-4 w-px bg-white/20 md:block`}
+              aria-hidden="true"
+            />
 
             {socialLinks.map((link) => (
               <a

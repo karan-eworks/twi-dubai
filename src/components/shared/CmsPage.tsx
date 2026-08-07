@@ -1,14 +1,13 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: CMS content is sanitized in normalizeCmsHtml */
 
 import Image from "next/image";
-import { SectionShell } from "./section-cell";
-import PageHero from "./page-hero";
 import type { CmsPageDisplayData } from "@/data/types/pages";
-import { NeedHelpCard } from "../cards/need-help-card";
 import { extractAmenities } from "@/lib/extractAmenities";
 import { normalizeCmsHtml } from "@/lib/normalizeCmsHtml";
+import { NeedHelpCard } from "../cards/need-help-card";
 import { CmsAmenities } from "../cms-pages/cms-aminities";
-
+import PageHero from "./page-hero";
+import { SectionShell } from "./section-cell";
 
 const FALLBACK_HERO_IMAGE =
   "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=2000&h=1200&fit=crop&q=80&auto=format";
@@ -38,17 +37,27 @@ export function CmsPage({ page }: CmsPageProps) {
 
   return (
     <main>
-       <PageHero
-              title={page.title}
-              body={page.intro}
-              imageSrc={page.media.src || "https://images.unsplash.com/photo-1627556704302-624286467c65?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
-              imageAlt={page.media.alt}
-            />
-      <SectionShell id="page-content" intro={{ heading: page.title }} tone="white">
+      <PageHero
+        title={page.title}
+        body={page.intro}
+        imageSrc={
+          page.media.src ||
+          "https://images.unsplash.com/photo-1627556704302-624286467c65?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        }
+        imageAlt={page.media.alt}
+      />
+      <SectionShell
+        id="page-content"
+        intro={{ heading: page.title }}
+        tone="white"
+      >
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-16">
           <article className="min-w-0">
             {/* .prose-cms owns size, leading, and colour — don't set them twice */}
-            <div className="prose-cms" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
+            <div
+              className="prose-cms"
+              dangerouslySetInnerHTML={{ __html: bodyHtml }}
+            />
 
             <CmsAmenities items={amenities} />
 

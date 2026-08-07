@@ -119,10 +119,21 @@ export function NavMenuProvider({
       closeAll,
       keepOpen: clearCloseTimer,
     }),
-    [activeKey, surface, switching, openMenu, closeMenu, toggleMenu, closeAll, clearCloseTimer],
+    [
+      activeKey,
+      surface,
+      switching,
+      openMenu,
+      closeMenu,
+      toggleMenu,
+      closeAll,
+      clearCloseTimer,
+    ],
   );
 
-  return <NavMenuContext.Provider value={value}>{children}</NavMenuContext.Provider>;
+  return (
+    <NavMenuContext.Provider value={value}>{children}</NavMenuContext.Provider>
+  );
 }
 
 export function useNavMenu() {

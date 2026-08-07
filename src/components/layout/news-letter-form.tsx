@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
 import { Check, Mail } from "lucide-react";
+import { type FormEvent, useState } from "react";
 
 type NewsletterStatus =
   | { type: "idle"; message: "" }
@@ -33,7 +33,10 @@ export function NewsletterForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      const data = (await response.json()) as { message?: string; error?: string };
+      const data = (await response.json()) as {
+        message?: string;
+        error?: string;
+      };
 
       if (!response.ok) {
         setStatus({
@@ -110,7 +113,10 @@ export function NewsletterForm() {
         }
       >
         {status.type === "success" ? (
-          <Check className="mt-1 size-4 shrink-0 text-cannon-400" aria-hidden="true" />
+          <Check
+            className="mt-1 size-4 shrink-0 text-cannon-400"
+            aria-hidden="true"
+          />
         ) : null}
         {status.message}
       </p>

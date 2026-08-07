@@ -1,4 +1,9 @@
-import { MenuApiItem, NavigationItem, MenuApiDetail, FooterGroup } from "../types/menus";
+import {
+  FooterGroup,
+  type MenuApiDetail,
+  type MenuApiItem,
+  type NavigationItem,
+} from "../types/menus";
 
 const SITE_ORIGINS = new Set([
   "https://www.woolwich.ac.ae",
@@ -36,7 +41,9 @@ function stripSiteOrigin(href: string) {
 export function normalizeMenuHref(item: Pick<MenuApiItem, "href" | "url">) {
   const rawHref = (item.href || item.url || "/").trim();
   const withoutOrigin = stripSiteOrigin(rawHref);
-  const path = withoutOrigin.startsWith("/") ? withoutOrigin : `/${withoutOrigin}`;
+  const path = withoutOrigin.startsWith("/")
+    ? withoutOrigin
+    : `/${withoutOrigin}`;
   const rewrittenPath = EXACT_PATH_REWRITES[path] ?? path;
   const courseMatch = rewrittenPath.match(/^\/course\/([^/?#]+)(.*)$/);
 
@@ -76,38 +83,38 @@ function normalizeItems(
       const label = getItemLabel(item);
       const href = normalizeMenuHref(item);
       const reference = references.get(href) ?? references.get(label);
-      const children = normalizeItems(item.children ?? [], reference?.children ?? []);
+      const children = normalizeItems(
+        item.children ?? [],
+        reference?.children ?? [],
+      );
 
       return {
         label,
         href,
-        ...(reference?.description ? { description: reference.description } : {}),
+        ...(reference?.description
+          ? { description: reference.description }
+          : {}),
         ...(children.length ? { children } : {}),
       };
     });
 }
 
-export function menuToNavigationItems(
-  menu: MenuApiDetail | null
-) {
+export function menuToNavigationItems(menu: MenuApiDetail | null) {
   const items = menu?.items ? normalizeItems(menu.items) : [];
 
   return items.length ? items : [];
 }
 
-export function menusToFooterGroups(
-  menus: Array<MenuApiDetail | null>,
-) {
+export function menusToFooterGroups(menus: Array<MenuApiDetail | null>) {
   const groups = menus
     .filter((menu): menu is MenuApiDetail => !!menu)
     .map((menu) => {
       const seen = new Set<string>();
-      const links = normalizeItems(menu.items ?? [])
-        .filter((link) => {
-          if (seen.has(link.href)) return false;
-          seen.add(link.href);
-          return true;
-        });
+      const links = normalizeItems(menu.items ?? []).filter((link) => {
+        if (seen.has(link.href)) return false;
+        seen.add(link.href);
+        return true;
+      });
 
       return {
         title: menu.title,

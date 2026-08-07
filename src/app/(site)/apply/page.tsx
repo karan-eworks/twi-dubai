@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import {
   ClipboardCheck,
   GraduationCap,
@@ -7,12 +6,13 @@ import {
   Phone,
   SlidersHorizontal,
 } from "lucide-react";
+import type { Metadata } from "next";
+import { ApplyForm } from "@/components/apply/apply-form";
+import { ButtonLink } from "@/components/shared/ButtonLink";
 import { Container } from "@/components/shared/container";
 import PageHero from "@/components/shared/page-hero";
-import { ButtonLink } from "@/components/shared/ButtonLink";
-import { ApplyForm } from "@/components/apply/apply-form";
-import { getFormBySlug } from "@/data/api/forms";
 import { getCourses } from "@/data/api/courses";
+import { getFormBySlug } from "@/data/api/forms";
 import {
   courseOptions,
   normalizeEnrolForm,
@@ -24,10 +24,8 @@ const APPLY_HERO = {
   title: "Apply to study with us",
   description:
     "Share your details, choose a programme and intake, and the admissions team will guide you through eligibility, scholarships, and enrolment.",
-   src: "https://images.unsplash.com/photo-1627556704302-624286467c65?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  src: "https://images.unsplash.com/photo-1627556704302-624286467c65?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 };
-
-
 
 const STEPS = [
   {
@@ -71,8 +69,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "Apply | The Woolwich Institute Dubai",
-      description:
-        "Start your application to The Woolwich Institute Dubai.",
+      description: "Start your application to The Woolwich Institute Dubai.",
       images: ["/images/twi-classroom-study.jpg"],
     },
   };
@@ -98,7 +95,10 @@ export default async function ApplyPage() {
       />
 
       {/* ── Application ─────────────────────────────────────── */}
-      <section aria-labelledby="apply-heading" className="py-16 sm:py-20 lg:py-24">
+      <section
+        aria-labelledby="apply-heading"
+        className="py-16 sm:py-20 lg:py-24"
+      >
         <Container>
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16">
             <div className="min-w-0">
@@ -145,7 +145,10 @@ export default async function ApplyPage() {
 
               <div className="mt-10 border-t border-border pt-10">
                 {config ? (
-                  <ApplyForm config={config} courseOptions={courseOptions(availableCourses)} />
+                  <ApplyForm
+                    config={config}
+                    courseOptions={courseOptions(availableCourses)}
+                  />
                 ) : (
                   <div className="rounded-md border border-border bg-stone-50 p-8">
                     <h2 className="font-heading text-2xl leading-tight text-foreground">
@@ -178,8 +181,8 @@ export default async function ApplyPage() {
                     Admissions desk
                   </p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    Talk through eligibility, documents, fees, and intakes with a
-                    real advisor.
+                    Talk through eligibility, documents, fees, and intakes with
+                    a real advisor.
                   </p>
 
                   <div className="mt-5 grid gap-2">
@@ -214,7 +217,9 @@ export default async function ApplyPage() {
                       <dt className="datum text-[11px] uppercase tracking-[0.1em] text-muted-foreground">
                         Response time
                       </dt>
-                      <dd className="text-foreground">Within one working day</dd>
+                      <dd className="text-foreground">
+                        Within one working day
+                      </dd>
                     </div>
                     <div className="flex items-baseline justify-between gap-4">
                       <dt className="datum text-[11px] uppercase tracking-[0.1em] text-muted-foreground">
@@ -231,7 +236,10 @@ export default async function ApplyPage() {
       </section>
 
       {/* ── Trust ──────────────────────────────────────────── */}
-      <section aria-labelledby="trust-heading" className="pb-20 sm:pb-24 lg:pb-28">
+      <section
+        aria-labelledby="trust-heading"
+        className="pb-20 sm:pb-24 lg:pb-28"
+      >
         <Container>
           <div className="border-t border-border pt-10">
             <span className="eyebrow">Verified</span>

@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import { getBlogs } from "@/data/api/blogs";
 import { toArticleCard } from "@/data/format-data/blog-api-content";
 import type { BlogApiItem } from "@/data/types/blogs";
+import { CardSkeletonGrid } from "../shared/card-skeleton";
 import { Container } from "../shared/container";
 import { PagePagination } from "../shared/Pagination";
 import PageHero from "../shared/page-hero";
 import { SearchFilterBar } from "../shared/searchfilterbar";
-import { BlogCardSkeletonGrid } from "./blog-card-skeleton";
 import { BlogCard } from "./blog-card";
 
 const PER_PAGE = 15;
@@ -112,7 +112,10 @@ export function BlogIndex() {
                 </p>
               </div>
             ) : isLoading ? (
-              <BlogCardSkeletonGrid count={PER_PAGE} />
+              <CardSkeletonGrid
+                count={PER_PAGE}
+                mediaClassName="aspect-16/10"
+              />
             ) : articles.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {articles.map((article) => (

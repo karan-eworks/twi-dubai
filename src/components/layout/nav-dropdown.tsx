@@ -1,15 +1,14 @@
 /** biome-ignore-all lint/a11y/noStaticElementInteractions: <explanation> */
 "use client";
 
-import { useId } from "react";
-import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Check, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { useId } from "react";
 import type { NavigationItem } from "@/data/types/menus";
-import { ButtonLink } from "../shared/ButtonLink";
 import { cn } from "@/lib/utils";
 import { navItemClasses, useNavMenu } from "../navbar-context";
-
+import { ButtonLink } from "../shared/ButtonLink";
 
 interface NavDropdownProps {
   item: NavigationItem;
@@ -25,7 +24,6 @@ interface PanelContent {
   featureTitle: string;
   featureText: string;
   ctaLabel: string;
-  
 }
 
 const PANEL_CONTENT: Record<string, PanelContent> = {
@@ -117,7 +115,8 @@ function resolvePanelContent(item: NavigationItem): PanelContent {
 
   return {
     title: item.label,
-    summary: item.description ?? "Find the most relevant pages in this section.",
+    summary:
+      item.description ?? "Find the most relevant pages in this section.",
     // facts: ["TWI Dubai", "Student support", "Admissions guidance"],
     featureTitle: "Helpful links",
     featureText:
@@ -126,19 +125,34 @@ function resolvePanelContent(item: NavigationItem): PanelContent {
   };
 }
 
-const panelPositionClass: Record<NonNullable<NavDropdownProps["align"]>, string> = {
+const panelPositionClass: Record<
+  NonNullable<NavDropdownProps["align"]>,
+  string
+> = {
   start: "left-0",
   center: "left-1/2 -translate-x-1/2",
   end: "right-0",
 };
 
-export function NavDropdown({ item, align = "center", scrolled, isHome }: NavDropdownProps) {
+export function NavDropdown({
+  item,
+  align = "center",
+  scrolled,
+  isHome,
+}: NavDropdownProps) {
   const instanceId = useId();
   const panelId = `${instanceId}-panel`;
   const buttonId = `${instanceId}-button`;
   const reduceMotion = useReducedMotion();
-  const { activeKey, surface, switching, openMenu, closeMenu, toggleMenu, keepOpen } =
-    useNavMenu();
+  const {
+    activeKey,
+    surface,
+    switching,
+    openMenu,
+    closeMenu,
+    toggleMenu,
+    keepOpen,
+  } = useNavMenu();
 
   // Identity comes from the component instance, not the href. Several nav
   // sections share a placeholder href, and keying on it opened every matching
@@ -171,7 +185,10 @@ export function NavDropdown({ item, align = "center", scrolled, isHome }: NavDro
         type="button"
         id={buttonId}
         onClick={() => toggleMenu(menuKey)}
-        className={cn(navItemClasses(surface, isOpen), (isHome && !scrolled) && "text-white/90")}
+        className={cn(
+          navItemClasses(surface, isOpen),
+          isHome && !scrolled && "text-white/90",
+        )}
         aria-expanded={isOpen}
         aria-controls={isOpen ? panelId : undefined}
       >
@@ -194,7 +211,11 @@ export function NavDropdown({ item, align = "center", scrolled, isHome }: NavDro
             aria-labelledby={buttonId}
             initial={{ opacity: 0, y: offset }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 0, transition: { duration: reduceMotion ? 0 : 0.12 } }}
+            exit={{
+              opacity: 0,
+              y: 0,
+              transition: { duration: reduceMotion ? 0 : 0.12 },
+            }}
             transition={{ duration, ease: [0.32, 0.72, 0, 1] }}
             className={cn(
               "absolute top-[calc(100%+14px)] z-50 w-[min(42rem,calc(100vw-3rem))] origin-top rounded-lg border border-border bg-popover text-popover-foreground shadow-xl",
@@ -258,7 +279,12 @@ export function NavDropdown({ item, align = "center", scrolled, isHome }: NavDro
                 </div>
 
                 {hasOwnPage ? (
-                  <ButtonLink href={item.href} intent="tertiary" size="sm" className="mt-5">
+                  <ButtonLink
+                    href={item.href}
+                    intent="tertiary"
+                    size="sm"
+                    className="mt-5"
+                  >
                     {panelContent.ctaLabel}
                     <ArrowRight aria-hidden="true" />
                   </ButtonLink>

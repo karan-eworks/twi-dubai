@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import type { ApiListResponse, ApiMedia, ApiMetaTag } from "./common";
 
 export type PageListApiResponse = ApiListResponse<PageApiItem>;
@@ -24,13 +24,14 @@ export interface PageApiItem {
   medias?: Array<string | ApiMedia> | null;
   form?: Record<string, unknown> | null;
   parent_page?: Record<string, unknown> | null;
-  meta_tag?: (Omit<ApiMetaTag, "meta_keyword"> & {
-    meta_keyword?: string | null;
-  }) | null;
+  meta_tag?:
+    | (Omit<ApiMetaTag, "meta_keyword"> & {
+        meta_keyword?: string | null;
+      })
+    | null;
   created_at?: string | null;
   updated_at?: string | null;
 }
-
 
 export interface MediaAsset {
   src: string;
@@ -38,7 +39,6 @@ export interface MediaAsset {
   sizes?: string;
   priority?: boolean;
 }
-
 
 export interface CmsPageDisplayData {
   id: number;
@@ -49,7 +49,6 @@ export interface CmsPageDisplayData {
   additionalHtml: string;
   media: MediaAsset;
   gallery: MediaAsset[];
-  
 }
 
 export interface CmsPageMeta {

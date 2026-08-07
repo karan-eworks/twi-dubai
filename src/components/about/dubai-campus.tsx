@@ -1,8 +1,8 @@
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Container } from "../shared/container";
 import { ButtonLink } from "../shared/ButtonLink";
+import { Container } from "../shared/container";
 
 export interface CampusView {
   id: string;
@@ -47,7 +47,10 @@ export function CampusGallery({
   const [lead, ...rest] = views;
 
   return (
-    <section aria-labelledby="campus-heading" className="py-20 sm:py-24 lg:py-28">
+    <section
+      aria-labelledby="campus-heading"
+      className="py-20 sm:py-24 lg:py-28"
+    >
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-xl">
@@ -59,8 +62,8 @@ export function CampusGallery({
               Inside the Dubai campus
             </h2>
             <p className="mt-5 text-base leading-7 text-muted-foreground">
-              Dubai Knowledge Park, Block 2A — teaching floors, study space, and the
-              places students actually spend their time.
+              Dubai Knowledge Park, Block 2A — teaching floors, study space, and
+              the places students actually spend their time.
             </p>
           </div>
 
@@ -101,7 +104,11 @@ function Tile({
         src={view.image}
         alt=""
         fill
-        sizes={tall ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 50vw, 100vw"}
+        sizes={
+          tall
+            ? "(min-width: 1024px) 50vw, 100vw"
+            : "(min-width: 1024px) 50vw, 100vw"
+        }
         className="-z-20 transform-gpu object-cover [backface-visibility:hidden] transition-[scale] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] will-change-transform group-hover:scale-[1.05]"
       />
 
@@ -130,7 +137,9 @@ function Tile({
         {view.caption ? (
           <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100">
             <div className="overflow-hidden">
-              <p className="pt-2.5 text-sm leading-6 text-white/80">{view.caption}</p>
+              <p className="pt-2.5 text-sm leading-6 text-white/80">
+                {view.caption}
+              </p>
             </div>
           </div>
         ) : null}

@@ -1,11 +1,15 @@
 import DOMPurify from "isomorphic-dompurify";
 
 export function clean(value: string | number | boolean | null | undefined) {
-  const trimmed = String(value ?? "").replace(/\u00a0/g, " ").trim();
+  const trimmed = String(value ?? "")
+    .replace(/\u00a0/g, " ")
+    .trim();
   return trimmed ? trimmed : null;
 }
 
-export function normalizeBoolean(value: boolean | number | string | null | undefined) {
+export function normalizeBoolean(
+  value: boolean | number | string | null | undefined,
+) {
   if (typeof value === "boolean") return value;
   if (typeof value === "number") return value === 1;
 
@@ -32,6 +36,10 @@ export function sanitizeHtml(html: string | null | undefined): string {
       "h2",
       "h3",
       "h4",
+      "h5",
+      "h6",
+      "hr",
+      "i",
       "img",
       "li",
       "ol",
@@ -51,6 +59,9 @@ export function sanitizeHtml(html: string | null | undefined): string {
       "alt",
       "aria-label",
       "caption",
+      // normalizeCmsHtml strips every authored class before adding its own
+      // `table-scroll` wrapper, so the only class that survives is ours.
+      "class",
       "colspan",
       "href",
       "rel",
@@ -61,6 +72,18 @@ export function sanitizeHtml(html: string | null | undefined): string {
       "title",
     ],
   });
+}
+
+/** Cuts on a word boundary so a summary never ends mid-word. */
+export function truncate(text: string, maxLength = 140): string {
+  if (text.length <= maxLength) return text;
+
+  const clipped = text.slice(0, maxLength);
+  const lastSpace = clipped.lastIndexOf(" ");
+  const body =
+    lastSpace > maxLength * 0.6 ? clipped.slice(0, lastSpace) : clipped;
+
+  return `${body.replace(/[,;:.\s]+$/, "")}…`;
 }
 
 export function getPlainText(value: string | null | undefined): string {

@@ -1,9 +1,9 @@
+import { ArrowRight, Clock, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Clock, MapPin } from "lucide-react";
-import { Container } from "../shared/container";
-import { ButtonLink } from "../shared/ButtonLink";
 import EventCard from "../cards/event-card";
+import { ButtonLink } from "../shared/ButtonLink";
+import { Container } from "../shared/container";
 
 export interface CollegeEvent {
   id: string;
@@ -65,7 +65,6 @@ const defaultEvents: CollegeEvent[] = [
   },
 ];
 
-
 export function LatestEvents({
   events = defaultEvents,
 }: {
@@ -74,7 +73,10 @@ export function LatestEvents({
   if (!events.length) return null;
 
   return (
-    <section aria-labelledby="events-heading" className="py-20 sm:py-24 lg:py-28">
+    <section
+      aria-labelledby="events-heading"
+      className="py-20 sm:py-24 lg:py-28"
+    >
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-xl">

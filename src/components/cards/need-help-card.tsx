@@ -1,7 +1,6 @@
 import { Mail, Phone } from "lucide-react";
 import { ButtonLink } from "../shared/ButtonLink";
 
-
 export interface HelpCta {
   href: string;
   label: string;
@@ -10,10 +9,17 @@ export interface HelpCta {
 
 export function NeedHelpCard({
   ctas,
+  eyebrow = "Admissions",
+  title = "Need help with this page?",
+  body = "Admissions can talk it through and help you pick the right next step.",
   phone = "+971 52 898 3382",
   email = "info@woolwich.ac.ae",
 }: {
   ctas: HelpCta[];
+  /** Override the copy when the page has a more specific ask than "need help". */
+  eyebrow?: string;
+  title?: string;
+  body?: string;
   phone?: string;
   email?: string;
 }) {
@@ -29,16 +35,14 @@ export function NeedHelpCard({
 
       <div className="p-5">
         <p className="datum text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-          Admissions
+          {eyebrow}
         </p>
 
         <p className="mt-2 text-lg font-semibold leading-6 text-foreground">
-          Need help with this page?
+          {title}
         </p>
 
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">
-          Admissions can talk it through and help you pick the right next step.
-        </p>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">{body}</p>
 
         <div className="mt-5 grid gap-2">
           {ctas.map((cta, index) => (
@@ -58,7 +62,10 @@ export function NeedHelpCard({
         <dl className="mt-5 space-y-2 border-t border-border pt-4">
           <div className="flex items-center gap-2.5">
             <dt className="sr-only">Phone</dt>
-            <Phone className="size-3.5 shrink-0 text-navy-400" aria-hidden="true" />
+            <Phone
+              className="size-3.5 shrink-0 text-navy-400"
+              aria-hidden="true"
+            />
             <dd>
               <a
                 href={`tel:${phone.replace(/\s/g, "")}`}
@@ -70,7 +77,10 @@ export function NeedHelpCard({
           </div>
           <div className="flex items-center gap-2.5">
             <dt className="sr-only">Email</dt>
-            <Mail className="size-3.5 shrink-0 text-navy-400" aria-hidden="true" />
+            <Mail
+              className="size-3.5 shrink-0 text-navy-400"
+              aria-hidden="true"
+            />
             <dd className="min-w-0">
               <a
                 href={`mailto:${email}`}

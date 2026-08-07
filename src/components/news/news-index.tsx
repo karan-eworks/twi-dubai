@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BlogCard } from "@/components/blogs/blog-card";
-import { BlogCardSkeletonGrid } from "@/components/blogs/blog-card-skeleton";
+import { CardSkeletonGrid } from "@/components/shared/card-skeleton";
 import { getNews } from "@/data/api/news";
 import { toArticleCard } from "@/data/format-data/news-api-content";
 import type { NewsApiItem } from "@/data/types/news";
@@ -112,7 +112,10 @@ export function NewsIndex() {
                 </p>
               </div>
             ) : isLoading ? (
-              <BlogCardSkeletonGrid count={PER_PAGE} />
+              <CardSkeletonGrid
+                count={PER_PAGE}
+                mediaClassName="aspect-16/10"
+              />
             ) : articles.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 {articles.map((article) => (

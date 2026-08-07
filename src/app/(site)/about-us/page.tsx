@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import AboutPurposeSection from "@/components/about/about-purpose";
 import { Accreditation } from "@/components/about/accreditation-section";
 import { CampusGallery } from "@/components/about/dubai-campus";
@@ -11,7 +12,6 @@ import { getAboutData, getAboutMeta } from "@/data/format-data/about-content";
 import type { BlogListApiResponse } from "@/data/types/blogs";
 import type { PageApiItem } from "@/data/types/pages";
 import type { TeamListApiResponse } from "@/data/types/team";
-import type { Metadata } from "next";
 
 async function getAboutPageData() {
   const [page, teamData, blogData] = await Promise.all([
@@ -60,13 +60,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutUs() {
-   const { page, teamData, blogData } = await getAboutPageData();
+  const { page, teamData, blogData } = await getAboutPageData();
 
   const about = getAboutData(page);
 
   return (
     <div className="flex flex-col bg-zinc-50 font-sans dark:bg-black">
-      <PageHero 
+      <PageHero
         title={about.hero.title}
         eyebrow={about.hero.eyebrow}
         body={about.hero.description}
@@ -81,8 +81,7 @@ export default async function AboutUs() {
       />
       <LeadershipTeam />
       <CTASection />
-      <CampusGallery />      
+      <CampusGallery />
     </div>
-   
   );
 }

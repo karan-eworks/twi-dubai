@@ -171,11 +171,11 @@ export default function PageHero({
           {/* Headline */}
           <h1
             id={`hero-title-${uid}`}
-            className="font-heading text-[clamp(3rem,9vw,7.5rem)] leading-[0.92] tracking-[-0.02em]"
+            className="font-heading text-[clamp(3rem,9vw,7.5rem)] leading-[1.1] tracking-[-0.02em] "
             style={{ color: NAVY_DEEP }}
           >
             {words.map((word, i) => (
-              <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-[0.08em]">
+              <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-[0.06em] -mb-4 ">
                 <motion.span variants={rise} className="inline-block">
                   {word}
                   {i < words.length - 1 ? "\u00A0" : ""}
@@ -210,7 +210,7 @@ export default function PageHero({
               </div>
             )}
           
-  </div>
+      </div>
 
         {/* ── Escutcheon ──────────────────────────────────── */}
         <div className="lg:col-span-5 lg:[direction:ltr]">

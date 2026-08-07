@@ -1,269 +1,262 @@
-// import type { Metadata } from "next";
-// import Image from "next/image";
-// import { ArrowRight, BadgeCheck, ClipboardCheck, GraduationCap, MessageCircle } from "lucide-react";
-// import { Container } from "@/src/components/shared/container";
-// import { ButtonLink } from "@/src/components/ui/button";
-// import { ApplyForm } from "@/src/components/sections/apply/apply-form";
-// import { getFormBySlug } from "@/src/data/fetch/forms";
-// import { fallbackEnrolForm } from "@/src/data/fallback/forms";
+import type { Metadata } from "next";
+import {
+  ClipboardCheck,
+  GraduationCap,
+  Mail,
+  MessageCircle,
+  Phone,
+  SlidersHorizontal,
+} from "lucide-react";
+import { Container } from "@/components/shared/container";
+import PageHero from "@/components/shared/page-hero";
+import { ButtonLink } from "@/components/shared/ButtonLink";
+import { ApplyForm } from "@/components/apply/apply-form";
+import { getFormBySlug } from "@/data/api/forms";
+import { getCourses } from "@/data/api/courses";
+import {
+  courseOptions,
+  normalizeEnrolForm,
+} from "@/data/format-data/apply-form";
+import type { CourseApiItem } from "@/data/types/courses";
 
-// export const metadata: Metadata = {
-//   title: "Apply Now | The Woolwich Institute Dubai",
-//   description:
-//     "Start your application to The Woolwich Institute Dubai. KHDA-licensed, Pearson-approved BTEC programmes with scholarship and UK progression options.",
-// };
-
-// const trustSignals = [
-//   {
-//     title: "KHDA Licensed",
-//     description: "Recognised by Dubai's education regulator",
-//   },
-//   {
-//     title: "Pearson Approved",
-//     description: "BTEC programmes through approved centre route",
-//   },
-//   {
-//     title: "Scholarships up to 50%",
-//     description: "Merit and international student support",
-//   },
-//   {
-//     title: "UK Progression",
-//     description: "Bachelor's top-up pathways from Dubai",
-//   },
-// ];
-
-// const heroProof = [
-//   {
-//     label: "Application review",
-//     description: "Admissions checks eligibility, documents, and programme fit.",
-//     icon: <ClipboardCheck className="size-4 text-[var(--brand-teal-strong)]" aria-hidden="true" />,
-//   },
-//   {
-//     label: "Scholarship guidance",
-//     description: "Ask about merit and international student support.",
-//     icon: <BadgeCheck className="size-4 text-[var(--brand-teal-strong)]" aria-hidden="true" />,
-//   },
-//   {
-//     label: "Pearson pathways",
-//     description: "BTEC and HND routes with progression planning.",
-//     icon: <GraduationCap className="size-4 text-[var(--brand-teal-strong)]" aria-hidden="true" />,
-//   },
-// ];
-
-// export default async function ApplyPage() {
-//   const enrolForm =
-//     (await getFormBySlug("enrol").catch(() => fallbackEnrolForm)) ??
-//     fallbackEnrolForm;
-
-//   return (
-//     <main>
-//       <section
-//         aria-labelledby="apply-heading"
-//         className="relative isolate overflow-hidden bg-[linear-gradient(180deg,var(--surface)_0%,white_80%)] pt-10"
-//       >
-//         <div
-//           aria-hidden="true"
-//           className="absolute inset-x-0 top-0 -z-10  bg-[var(--brand-navy)]"
-//         />
-//         <Container className="py-[clamp(3.5rem,8vw,7rem)]">
-//           <div className="grid items-end gap-8 lg:grid-cols-12 lg:gap-10">
-//             <div className="motion-hero-copy min-w-0 lg:col-span-7">
-//               <p className="mb-7 max-w-max border-b border-[var(--brand-teal-strong)] pb-3 text-sm font-semibold leading-none text-[var(--brand-navy)]">
-//                 Admissions 2026
-//               </p>
-//               <h1
-//                 id="apply-heading"
-//                 className="max-w-[11ch] text-[clamp(3rem,8vw,6rem)] font-semibold leading-[0.92] tracking-[-0.035em] text-[var(--brand-navy)] text-balance"
-//               >
-//                 Start your application with a clear next step.
-//               </h1>
-//               <p className="mt-6 max-w-[43rem] text-lg leading-8 text-[var(--muted)] text-pretty">
-//                 Share your details, choose a programme and intake, then our
-//                 admissions team will contact you about eligibility,
-//                 scholarships, fees, and enrolment.
-//               </p>
-//               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-//                 <ButtonLink href="#application-form" intent="primary" size="lg" className="w-full sm:w-auto">
-//                   <ArrowRight className="mr-2 size-4" aria-hidden="true" />
-//                   Complete Application
-//                 </ButtonLink>
-//                 <ButtonLink
-//                   href="https://wa.me/971528983382"
-//                   intent="secondary"
-//                   size="lg"
-//                   className="w-full sm:w-auto"
-//                   aria-label="Contact TWI Dubai admissions on WhatsApp"
-//                 >
-//                   <MessageCircle className="mr-2 size-4" aria-hidden="true" />
-//                   WhatsApp Admissions
-//                 </ButtonLink>
-//               </div>
-//             </div>
-
-//             <div className="motion-hero-media min-w-0 lg:col-span-5">
-//               <figure className="relative h-[clamp(22rem,44vw,36rem)] overflow-hidden rounded-[12px] border border-white/70 bg-white">
-//                 <Image
-//                   src="/images/twi-lecture-hall.jpg"
-//                   alt="TWI Dubai lecture hall prepared for students."
-//                   fill
-//                   sizes="(min-width: 1024px) 38vw, 100vw"
-//                   className="object-cover"
-//                   preload
-//                 />
-//               </figure>
-//               <div className="mt-3 grid overflow-hidden rounded-[8px] border border-[var(--border)] bg-white sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-//                 {heroProof.map((item) => (
-//                   <div
-//                     key={item.label}
-//                     className="border-b border-[var(--border)] p-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0 lg:border-b lg:border-r-0 lg:last:border-b-0 xl:border-b-0 xl:border-r xl:last:border-r-0"
-//                   >
-//                     <p className="flex items-center gap-2 text-sm font-bold text-[var(--brand-navy)]">
-//                       {item.icon}
-//                       {item.label}
-//                     </p>
-//                     <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-//                       {item.description}
-//                     </p>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-//           </div>
-//         </Container>
-//       </section>
-
-//       <section
-//         id="application-form"
-//         aria-label="Application form"
-//         className="scroll-mt-24 py-[clamp(3rem,6vw,6rem)]"
-//       >
-//         <Container>
-//           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,44rem)] lg:gap-16">
-//             <div className="min-w-0">
-//               <p className="text-sm font-semibold text-[var(--brand-teal-strong)]">
-//                 WHAT HAPPENS NEXT
-//               </p>
-//               <h2 className="mt-3 text-[clamp(1.5rem,3vw,2.5rem)] font-bold leading-[1.08] tracking-[-0.02em] text-[var(--foreground)] text-pretty">
-//                 After you submit your application
-//               </h2>
-//               <ol className="mt-8 space-y-6">
-//                 <li className="flex gap-4">
-//                   <span
-//                     aria-hidden="true"
-//                     className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--brand-teal-soft)] text-sm font-bold text-[var(--brand-navy)]"
-//                   >
-//                     1
-//                   </span>
-//                   <div>
-//                     <h3 className="font-semibold text-[var(--foreground)]">
-//                       Application review
-//                     </h3>
-//                     <p className="mt-1 text-sm leading-6 text-[var(--muted)] text-pretty">
-//                       Admissions checks your eligibility, document readiness, and
-//                       scholarship potential.
-//                     </p>
-//                   </div>
-//                 </li>
-//                 <li className="flex gap-4">
-//                   <span
-//                     aria-hidden="true"
-//                     className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--brand-teal-soft)] text-sm font-bold text-[var(--brand-navy)]"
-//                   >
-//                     2
-//                   </span>
-//                   <div>
-//                     <h3 className="font-semibold text-[var(--foreground)]">
-//                       Counselling call
-//                     </h3>
-//                     <p className="mt-1 text-sm leading-6 text-[var(--muted)] text-pretty">
-//                       An advisor calls you within 48 hours to discuss programme fit,
-//                       fees, scholarships, and next steps.
-//                     </p>
-//                   </div>
-//                 </li>
-//                 <li className="flex gap-4">
-//                   <span
-//                     aria-hidden="true"
-//                     className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--brand-teal-soft)] text-sm font-bold text-[var(--brand-navy)]"
-//                   >
-//                     3
-//                   </span>
-//                   <div>
-//                     <h3 className="font-semibold text-[var(--foreground)]">
-//                       Offer & enrolment
-//                     </h3>
-//                     <p className="mt-1 text-sm leading-6 text-[var(--muted)] text-pretty">
-//                       Receive your offer letter, complete enrolment, and begin your TWI
-//                       Dubai journey.
-//                     </p>
-//                   </div>
-//                 </li>
-//               </ol>
-//             </div>
-
-//             <div className="min-w-0">
-//               <div className="rounded-[8px] border border-[var(--border)] bg-[var(--background)] p-6 sm:p-8">
-//                 <ApplyForm form={enrolForm} />
-//               </div>
-//             </div>
-//           </div>
-//         </Container>
-//       </section>
-
-//       <section
-//         aria-label="Accreditation and trust"
-//         className="scroll-mt-24 bg-[var(--surface)] py-[clamp(3rem,6vw,6rem)]"
-//       >
-//         <Container>
-//           <div className="mx-auto max-w-[48rem] text-center">
-//             <p className="text-sm font-semibold text-[var(--brand-teal-strong)]">
-//               VERIFIED & LICENSED
-//             </p>
-//             <h2 className="mt-3 text-[clamp(1.5rem,3vw,2.5rem)] font-bold leading-[1.08] tracking-[-0.02em] text-[var(--foreground)] text-pretty">
-//               A qualification you can trust
-//             </h2>
-//             <p className="mx-auto mt-4 max-w-[36rem] leading-7 text-[var(--muted)] text-pretty">
-//               The Woolwich Institute Dubai is licensed by the Knowledge and Human
-//               Development Authority (KHDA) and approved by Pearson to deliver BTEC
-//               qualifications.
-//             </p>
-//           </div>
-
-//           <div className="mt-10 grid gap-px overflow-hidden rounded-[8px] border border-[var(--border)] sm:grid-cols-4">
-//             {trustSignals.map((signal) => (
-//               <div
-//                 key={signal.title}
-//                 className="motion-card flex flex-col items-center gap-2 bg-[var(--background)] p-6 text-center"
-//               >
-//                 <p className="text-base font-bold text-[var(--foreground)]">
-//                   {signal.title}
-//                 </p>
-//                 <p className="text-sm leading-5 text-[var(--muted)]">
-//                   {signal.description}
-//                 </p>
-//               </div>
-//             ))}
-//           </div>
-
-//           <div className="mt-10 text-center">
-//             <a
-//               href="https://wa.me/971528983382"
-//               target="_blank"
-//               rel="noopener noreferrer"
-//               className="twi-button twi-button-secondary inline-flex min-h-12 items-center justify-center rounded-[2px] px-5 py-3 text-base font-bold no-underline"
-//             >
-//               Speak to admissions on WhatsApp
-//             </a>
-//           </div>
-//         </Container>
-//       </section>
-//     </main>
-//   );
-// }
+const APPLY_HERO = {
+  eyebrow: "Admissions 2026",
+  title: "Apply to study with us",
+  description:
+    "Share your details, choose a programme and intake, and the admissions team will guide you through eligibility, scholarships, and enrolment.",
+   src: "https://images.unsplash.com/photo-1627556704302-624286467c65?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+};
 
 
-export default function Page() {
+
+const STEPS = [
+  {
+    icon: ClipboardCheck,
+    title: "Application review",
+    body: "Admissions checks your eligibility, document readiness, and scholarship potential.",
+  },
+  {
+    icon: SlidersHorizontal,
+    title: "Counselling call",
+    body: "An advisor calls within one working day to talk programme fit, fees, and next steps.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Offer and enrolment",
+    body: "Receive your offer letter, complete enrolment, and begin your journey at TWI Dubai.",
+  },
+];
+
+const TRUST = [
+  { label: "KHDA Licensed", detail: "Dubai's education regulator" },
+  { label: "Pearson Approved", detail: "BTEC programme routes" },
+  { label: "Scholarships to 50%", detail: "Merit and need support" },
+  { label: "UK Progression", detail: "Bachelor's top-up pathways" },
+];
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Apply | The Woolwich Institute Dubai",
+    description:
+      "Apply to study at The Woolwich Institute Dubai. KHDA-licensed, Pearson-approved BTEC and ACCA programmes with scholarships and UK progression routes.",
+    alternates: { canonical: "https://www.woolwich.ac.ae/apply" },
+    openGraph: {
+      title: "Apply | The Woolwich Institute Dubai",
+      description:
+        "Start your application to The Woolwich Institute Dubai — KHDA-licensed, Pearson-approved study with UK progression.",
+      url: "https://www.woolwich.ac.ae/apply",
+      siteName: "The Woolwich Institute Dubai",
+      images: ["/images/twi-classroom-study.jpg"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Apply | The Woolwich Institute Dubai",
+      description:
+        "Start your application to The Woolwich Institute Dubai.",
+      images: ["/images/twi-classroom-study.jpg"],
+    },
+  };
+}
+
+export default async function ApplyPage() {
+  const [form, courses] = await Promise.all([
+    getFormBySlug("enrol").catch(() => null),
+    getCourses().catch(() => null),
+  ]);
+
+  const availableCourses: CourseApiItem[] = courses?.data ?? [];
+  const config = form ? normalizeEnrolForm(form) : null;
+
   return (
-    <div>Page</div>
-  )
+    <main>
+      <PageHero
+        eyebrow={APPLY_HERO.eyebrow}
+        title={APPLY_HERO.title}
+        body={APPLY_HERO.description}
+        imageSrc={APPLY_HERO.src}
+        imageAlt="Students on the TWI Dubai campus"
+      />
+
+      {/* ── Application ─────────────────────────────────────── */}
+      <section aria-labelledby="apply-heading" className="py-16 sm:py-20 lg:py-24">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16">
+            <div className="min-w-0">
+              <span className="eyebrow">Your application</span>
+              <h1
+                id="apply-heading"
+                className="mt-4 text-balance font-heading text-4xl font-normal leading-[1.05] tracking-tight text-foreground sm:text-5xl"
+              >
+                Start your application
+              </h1>
+              <p className="mt-5 max-w-prose text-base leading-7 text-muted-foreground sm:text-lg">
+                Share a few details and the admissions team will take it from
+                there — no payment now, no obligation.
+              </p>
+
+              <ol className="mt-10 grid gap-4 sm:grid-cols-3">
+                {STEPS.map((step, index) => {
+                  const Icon = step.icon;
+                  return (
+                    <li
+                      key={step.title}
+                      className="rounded-md border border-border bg-card p-5"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon
+                          aria-hidden="true"
+                          strokeWidth={1.75}
+                          className="size-5 text-navy-400"
+                        />
+                        <span className="datum text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                          Step {index + 1}
+                        </span>
+                      </div>
+                      <h2 className="mt-3 font-semibold leading-6 text-foreground">
+                        {step.title}
+                      </h2>
+                      <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                        {step.body}
+                      </p>
+                    </li>
+                  );
+                })}
+              </ol>
+
+              <div className="mt-10 border-t border-border pt-10">
+                {config ? (
+                  <ApplyForm config={config} courseOptions={courseOptions(availableCourses)} />
+                ) : (
+                  <div className="rounded-md border border-border bg-stone-50 p-8">
+                    <h2 className="font-heading text-2xl leading-tight text-foreground">
+                      Application form unavailable
+                    </h2>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                      The enrolment form is temporarily offline. Email
+                      admissions or WhatsApp the team and they will take your
+                      details directly.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <aside className="min-w-0">
+              <div className="overflow-hidden rounded-md border border-border bg-stone-50 lg:sticky lg:top-28">
+                <div className="relative h-0.5 bg-border">
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-y-0 start-0 w-10 bg-cannon-500"
+                  />
+                </div>
+
+                <div className="p-5">
+                  <p className="datum text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                    Questions before you apply?
+                  </p>
+                  <p className="mt-2 text-lg font-semibold leading-6 text-foreground">
+                    Admissions desk
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    Talk through eligibility, documents, fees, and intakes with a
+                    real advisor.
+                  </p>
+
+                  <div className="mt-5 grid gap-2">
+                    <ButtonLink
+                      href="https://wa.me/971528983382?text=Hello%20Admissions%2C%20I%20have%20a%20question%20about%20applying"
+                      intent="secondary"
+                      fullWidth
+                    >
+                      <MessageCircle aria-hidden="true" />
+                      WhatsApp admissions
+                    </ButtonLink>
+                    <ButtonLink
+                      href="tel:+971528983382"
+                      intent="tertiary"
+                      fullWidth
+                    >
+                      <Phone aria-hidden="true" />
+                      Call +971 52 898 3382
+                    </ButtonLink>
+                    <ButtonLink
+                      href="mailto:admissions@woolwich.ac.ae"
+                      intent="tertiary"
+                      fullWidth
+                    >
+                      <Mail aria-hidden="true" />
+                      Email admissions
+                    </ButtonLink>
+                  </div>
+
+                  <dl className="mt-5 space-y-2 border-t border-border pt-4 text-sm">
+                    <div className="flex items-baseline justify-between gap-4">
+                      <dt className="datum text-[11px] uppercase tracking-[0.1em] text-muted-foreground">
+                        Response time
+                      </dt>
+                      <dd className="text-foreground">Within one working day</dd>
+                    </div>
+                    <div className="flex items-baseline justify-between gap-4">
+                      <dt className="datum text-[11px] uppercase tracking-[0.1em] text-muted-foreground">
+                        No obligation
+                      </dt>
+                      <dd className="text-foreground">First call is free</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Trust ──────────────────────────────────────────── */}
+      <section aria-labelledby="trust-heading" className="pb-20 sm:pb-24 lg:pb-28">
+        <Container>
+          <div className="border-t border-border pt-10">
+            <span className="eyebrow">Verified</span>
+            <h2
+              id="trust-heading"
+              className="mt-4 font-heading text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-4xl"
+            >
+              A British-quality qualification you can trust
+            </h2>
+
+            <ul className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-4">
+              {TRUST.map((item) => (
+                <li key={item.label} className="bg-card p-6">
+                  <p className="font-semibold leading-6 text-foreground">
+                    {item.label}
+                  </p>
+                  <p className="mt-1 text-sm leading-5 text-muted-foreground">
+                    {item.detail}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Container>
+      </section>
+    </main>
+  );
 }

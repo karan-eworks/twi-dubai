@@ -11,6 +11,8 @@ export interface FormApiItem {
   button_label?: string | null;
   description?: string | null;
   extra?: unknown;
+  has_captcha?: boolean | number | string | null;
+  recaptcha_site_key?: string | null;
   mail_to_admin?: boolean | number | string | null;
   display_order?: number | null;
   publish?: boolean | number | string | null;

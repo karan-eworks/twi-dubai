@@ -14,8 +14,6 @@ import { ButtonLink } from "@/components/shared/ButtonLink";
 import PageHero from "@/components/shared/page-hero";
 
 
-
-
 const CAMPUS = {
   name: "The Woolwich Institute Dubai",
   address: "G-35, Block 2A, Dubai Knowledge Park, Dubai, UAE",

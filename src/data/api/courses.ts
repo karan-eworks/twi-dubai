@@ -1,38 +1,38 @@
 import { apiFetch } from "@/lib/api";
-import type { CourseListApiResponse, CourseApiItem } from "../types/courses";
+import type { CourseApiItem, CourseListApiResponse } from "../types/courses";
 
-interface GetCoursesOptions {
-  search?: string | null;
+export interface GetCoursesParams {
+  page?: number;
+  perPage?: number;
+  search?: string;
+  /** Department id — the API filters on `department_id`, not on slug or name. */
   departmentId?: string | number | null;
+  /** Only programmes the institute currently runs. */
+  active?: boolean;
 }
 
-function withQuery(
-  endpoint: string,
-  params: Record<string, string | number | null | undefined| boolean>,
-) {
-  const query = new URLSearchParams();
+export async function getCourses(params: GetCoursesParams = {}) {
+  const { page, perPage, search, departmentId, active = true } = params;
 
-  for (const [key, value] of Object.entries(params)) {
-    if (value === null || value === undefined || value === "") continue;
-    query.set(key, String(value));
-  }
+  const query = new URLSearchParams();
+  if (page) query.set("page", String(page));
+  if (perPage) query.set("per_page", String(perPage));
+  if (search) query.set("search", search);
+  if (departmentId) query.set("department_id", String(departmentId));
+  if (active) query.set("active", "true");
 
   const queryString = query.toString();
-  return queryString ? `${endpoint}?${queryString}` : endpoint;
-}
 
-export async function getCourses(options: GetCoursesOptions = {}) {
   return apiFetch<CourseListApiResponse>(
-    withQuery("/courses", {
-      search: options.search,
-      departmentId: options.departmentId,
-      active:true,
-    }),
+    queryString ? `/courses?${queryString}` : "/courses",
   );
 }
 
-export async function getCourseBySlug(slug: string): Promise<CourseApiItem | null> {
-  const courses = await getCourses();
+/** The API has no per-slug course endpoint, so the list is matched instead. */
+export async function getCourseBySlug(
+  slug: string,
+): Promise<CourseApiItem | null> {
+  const courses = await getCourses({ perPage: 100 });
 
-  return courses.data.find((course: CourseApiItem) => course.slug === slug) ?? null;
+  return courses.data.find((course) => course.slug === slug) ?? null;
 }

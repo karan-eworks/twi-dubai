@@ -1,4 +1,5 @@
-import { CourseCards } from "@/components/cards/course-section";
+
+import { CourseCardsSection } from "@/components/cards/course-section";
 import { LatestEvents } from "@/components/home/event-section";
 import { Hero } from "@/components/home/hero-section";
 import { Insights } from "@/components/home/insights-section";
@@ -23,7 +24,7 @@ export default function Home() {
       <VideoTestimonials testimonials={videoTestimonials} />
       <LatestEvents />
       <Insights />
-      <CourseCards />
+      <CourseCardsSection />
     </div>
    
   );

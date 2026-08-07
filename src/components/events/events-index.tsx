@@ -3,14 +3,16 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import EventCard from "@/components/cards/event-card";
+import { Button } from "@/components/ui/button";
 import { getEvents } from "@/data/api/events";
 import { toCollegeEvent } from "@/data/format-data/event-api-content";
 import type { EventApiItem } from "@/data/types/events";
+import { CardSkeletonGrid } from "../shared/card-skeleton";
 import { Container } from "../shared/container";
+import { EmptyOutline } from "../shared/empty";
 import { PagePagination } from "../shared/Pagination";
 import PageHero from "../shared/page-hero";
 import { SearchFilterBar } from "../shared/searchfilterbar";
-import { EventCardSkeletonGrid } from "./event-card-skeleton";
 
 const PER_PAGE = 15;
 const SEARCH_DEBOUNCE_MS = 400;
@@ -92,7 +94,7 @@ export function EventsIndex() {
         }
       />
 
-      <section className="bg-[var(--surface)]">
+      <section className="pt-8">
         <SearchFilterBar
           searchLabel="Search events"
           searchPlaceholder="Search events by title or topic..."
@@ -104,17 +106,16 @@ export function EventsIndex() {
         />
       </section>
 
-      <section className="bg-[var(--surface)] pb-20">
+      <section className="pb-20">
         <Container>
           <div className="pt-8">
             {error ? (
-              <div className="rounded-[12px] border border-[var(--border)] bg-white p-8 text-center sm:p-12">
-                <p className="text-base leading-7 text-[var(--muted)]">
-                  {error}
-                </p>
-              </div>
+              <EmptyOutline
+                title="Events are unavailable"
+                description={error}
+              />
             ) : isLoading ? (
-              <EventCardSkeletonGrid count={PER_PAGE} />
+              <CardSkeletonGrid count={PER_PAGE} />
             ) : events.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {events.map((event) => (
@@ -122,23 +123,21 @@ export function EventsIndex() {
                 ))}
               </div>
             ) : (
-              <div className="rounded-[12px] border border-[var(--border)] bg-white p-8 text-center sm:p-12">
-                <h2 className="text-3xl font-semibold tracking-[-0.025em] text-[var(--brand-navy)]">
-                  No events match those filters
-                </h2>
-                <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-[var(--muted)]">
-                  Try a broader search term or clear your search.
-                </p>
-                {search ? (
-                  <button
-                    type="button"
-                    onClick={() => setSearchInput("")}
-                    className="twi-button twi-button-primary relative mt-7 inline-flex min-h-12 items-center justify-center overflow-hidden rounded-[8px] border px-5 text-sm font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
-                  >
-                    <span className="twi-button-content">Clear search</span>
-                  </button>
-                ) : null}
-              </div>
+              <EmptyOutline
+                title="No events match those filters"
+                description="Try a broader search term, or clear your search to see every event."
+                action={
+                  search ? (
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      onClick={() => setSearchInput("")}
+                    >
+                      Clear search
+                    </Button>
+                  ) : null
+                }
+              />
             )}
 
             {!isLoading && !error && total > 0 ? (

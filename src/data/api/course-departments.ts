@@ -1,33 +1,36 @@
 import { apiFetch } from "@/lib/api";
-import type { CourseDepartmentListApiResponse, CourseDepartmentApiItem } from "../types/course-departments";
-
+import type {
+  CourseDepartmentApiItem,
+  CourseDepartmentListApiResponse,
+} from "../types/course-departments";
 
 interface GetCourseDepartmentsOptions {
   search?: string | null;
+  perPage?: number;
 }
 
-export async function getCoursesCategories(options: GetCourseDepartmentsOptions = {}) {
+export async function getCoursesCategories(
+  options: GetCourseDepartmentsOptions = {},
+) {
   const query = new URLSearchParams();
 
-  if (options.search) {
-    query.set("search", options.search);
-  }
+  if (options.search) query.set("search", options.search);
+  if (options.perPage) query.set("per_page", String(options.perPage));
 
-  const endpoint =
-    query.size > 0
-      ? `/course-departments?${query.toString()}`
-      : "/course-departments";
+  const queryString = query.toString();
 
-  return apiFetch<CourseDepartmentListApiResponse>(endpoint);
+  return apiFetch<CourseDepartmentListApiResponse>(
+    queryString ? `/course-departments?${queryString}` : "/course-departments",
+  );
 }
 
-
+/** A department is offered to visitors only while it is active and unhidden. */
 export function isVisibleCourseCategory(category: CourseDepartmentApiItem) {
   return category.status !== false && category.hidden !== true;
 }
 
 export async function getVisibleCourseCategories() {
-  const categories = await getCoursesCategories();
+  const categories = await getCoursesCategories({ perPage: 100 });
 
   return (categories.data ?? []).filter(isVisibleCourseCategory);
 }
@@ -35,10 +38,7 @@ export async function getVisibleCourseCategories() {
 export async function getCourseCategoryBySlug(
   slug: string,
 ): Promise<CourseDepartmentApiItem | null> {
-  const canonicalSlug = slug;
   const categories = await getVisibleCourseCategories();
 
-  return (
-    categories.find((category: CourseDepartmentApiItem) => category.slug === canonicalSlug) ?? null
-  );
+  return categories.find((category) => category.slug === slug) ?? null;
 }

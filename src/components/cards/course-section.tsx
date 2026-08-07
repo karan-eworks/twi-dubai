@@ -17,7 +17,7 @@ export interface Course {
   intakes: string;
   /** What it leads to — the question every course card should answer. */
   progression: string;
-  href: string;
+  slug: string;
   image: string;
 }
 
@@ -35,7 +35,7 @@ const defaultCourses: Course[] = [
     duration: "18–24 months",
     intakes: "September, January",
     progression: "Final-year top-up at a UK university",
-    href: "/courses/hnd-business",
+    slug: "/courses/hnd-business",
     image: unsplash("1454165804606-c3d57bc86b40"),
   },
   {
@@ -48,7 +48,7 @@ const defaultCourses: Course[] = [
     duration: "14–16 months",
     intakes: "September, January, April",
     progression: "Year one of an undergraduate degree",
-    href: "/courses/level-3-business",
+    slug: "/courses/level-3-business",
     image: unsplash("1524178232363-1fb2b075b655"),
   },
   {
@@ -61,12 +61,12 @@ const defaultCourses: Course[] = [
     duration: "Up to 36 months",
     intakes: "Rolling",
     progression: "ACCA membership and practising certificate",
-    href: "/courses/acca",
+    slug: "/courses/acca",
     image: unsplash("1541339907198-e08756dedf3f"),
   },
 ];
 
-export function CourseCards({ courses = defaultCourses }: { courses?: Course[] }) {
+export function CourseCardsSection({ courses = defaultCourses }: { courses?: Course[] }) {
   if (!courses.length) return null;
 
   return (
@@ -98,7 +98,7 @@ export function CourseCards({ courses = defaultCourses }: { courses?: Course[] }
             <li key={course.id}>
               <article className="h-full">
                 <Link
-                  href={course.href}
+                  href={course.slug}
                   className="group flex h-full transform-gpu flex-col overflow-hidden rounded-md border border-border bg-card no-underline transition-[translate,scale,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 hover:border-border-strong hover:shadow-[0_18px_40px_-24px_oklch(0.227_0.047_260.4/0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
                 >
                   <div className="relative aspect-[16/10] transform-gpu overflow-hidden bg-navy-900 [contain:paint]">
@@ -123,44 +123,6 @@ export function CourseCards({ courses = defaultCourses }: { courses?: Course[] }
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">
                       {course.summary}
                     </p>
-
-                    {/* The specs a prospective student is actually scanning for */}
-                    {/* <dl className="mt-5 border-t border-border text-sm">
-                      <div className="flex items-baseline justify-between gap-4 border-b border-border py-2.5">
-                        <dt className="datum text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-                          Award
-                        </dt>
-                        <dd className="text-end text-[13px] font-medium text-foreground">
-                          {course.award}
-                        </dd>
-                      </div>
-                      <div className="flex items-baseline justify-between gap-4 border-b border-border py-2.5">
-                        <dt className="datum text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-                          Duration
-                        </dt>
-                        <dd className="datum text-end text-[13px] text-foreground">
-                          {course.duration}
-                        </dd>
-                      </div>
-                      <div className="flex items-baseline justify-between gap-4 border-b border-border py-2.5">
-                        <dt className="datum text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-                          Intakes
-                        </dt>
-                        <dd className="datum text-end text-[13px] text-foreground">
-                          {course.intakes}
-                        </dd>
-                      </div>
-                    </dl> */}
-
-                    {/* <p className="mt-4 border-s-2 border-cannon-500 ps-3 text-[13px] leading-5 text-muted-foreground">
-                      <span className="datum block text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-                        Progresses to
-                      </span>
-                      <span className="mt-1 block text-foreground">
-                        {course.progression}
-                      </span>
-                    </p> */}
-
                     <span className="mt-auto flex items-center gap-2 pt-6 text-sm font-semibold text-foreground transition-colors duration-300 group-hover:text-cannon-600">
                       View programme
                       <ArrowRight

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { EventCardSkeletonGrid } from "@/components/events/event-card-skeleton";
 import { EventsIndex } from "@/components/events/events-index";
+import { CardSkeletonGrid } from "@/components/shared/card-skeleton";
 
 const fallbackOpenGraphImage = "/images/twi-classroom-study.jpg";
 
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 
 export default function EventsPage() {
   return (
-    <Suspense fallback={<EventCardSkeletonGrid />}>
+    <Suspense fallback={<CardSkeletonGrid count={15} />}>
       <EventsIndex />
     </Suspense>
   );

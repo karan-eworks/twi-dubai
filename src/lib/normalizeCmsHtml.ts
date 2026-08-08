@@ -95,5 +95,41 @@ export function normalizeCmsHtml(
     '<img loading="lazy" decoding="async"',
   );
 
+  html = normalizeEmbeds(html);
+
   return html;
+}
+
+/** Hosts an editor is allowed to embed. Everything else is dropped. */
+const EMBED_HOSTS =
+  /^https:\/\/(?:www\.)?(?:youtube\.com|youtube-nocookie\.com)\//i;
+const IFRAME_PATTERN =
+  /<iframe\b([^>]*)>[\s\S]*?<\/iframe>|<iframe\b([^>]*)\/?>/gi;
+
+/**
+ * Editors paste raw YouTube embed code, which arrives with fixed pixel
+ * dimensions and whatever else the share dialog produced. Wrap the survivors
+ * so `.video-embed` can hold the aspect ratio, and drop every other iframe —
+ * an arbitrary frame from the CMS is somebody else's page inside ours.
+ */
+function normalizeEmbeds(html: string): string {
+  return html.replace(IFRAME_PATTERN, (_match, openTag, selfClosing) => {
+    const attributes: string = openTag ?? selfClosing ?? "";
+    const src = attributes.match(/\ssrc="([^"]*)"/i)?.[1] ?? "";
+
+    if (!EMBED_HOSTS.test(src)) return "";
+
+    // Re-emitted into an attribute, so anything that could close it goes.
+    const title = (
+      attributes.match(/\stitle="([^"]*)"/i)?.[1] ?? "Video"
+    ).replace(/["<>]/g, "");
+
+    return (
+      `<div class="video-embed">` +
+      `<iframe src="${src}" title="${title}" loading="lazy" ` +
+      `allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ` +
+      `allowfullscreen></iframe>` +
+      `</div>`
+    );
+  });
 }

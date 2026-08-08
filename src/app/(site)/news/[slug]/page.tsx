@@ -1,162 +1,134 @@
-// import type { Metadata } from "next";
-// import { notFound } from "next/navigation";
-// import {
-//   getNewsDisplayData,
-//   getRelatedNewsArticles,
-//   normalizeNewsArticle,
-// } from "@/src/components/sections/news/news-api-content";
-// import { NewsDetailPage } from "@/src/components/sections/news/news-detail-page";
-// import { getNews, getNewsArticleBySlug } from "@/src/data/fetch/news";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { NewsDetailPage } from "@/components/news/news-detail-page";
+import { getNews, getNewsArticleBySlug } from "@/data/api/news";
+import {
+  getRelatedNewsArticles,
+  normalizeNewsArticle,
+} from "@/data/format-data/news-api-content";
+import type { NewsApiItem } from "@/data/types/news";
 
-// type NewsDetailRouteProps = {
-//   params: Promise<{
-//     slug: string;
-//   }>;
-// };
+interface NewsRouteProps {
+  params: Promise<{ slug: string }>;
+}
 
-// export async function generateStaticParams() {
-//   try {
-//     const newsData = await getNews();
-//     return newsData.data.map((article) => ({
-//       slug: article.slug,
-//     }));
-//   } catch {
-//     return [];
-//   }
-// }
+const SITE_URL = "https://www.woolwich.ac.ae";
+const SITE_NAME = "The Woolwich Institute Dubai";
+const CATALOGUE_SIZE = 100;
 
-// export async function generateMetadata({ params }: NewsDetailRouteProps): Promise<Metadata> {
-//   const { slug } = await params;
+async function getCatalogue(): Promise<NewsApiItem[]> {
+  try {
+    const response = await getNews({ perPage: CATALOGUE_SIZE });
+    return response.data ?? [];
+  } catch {
+    return [];
+  }
+}
 
-//   let apiArticle;
-//   try {
-//     apiArticle = await getNewsArticleBySlug(slug);
-//   } catch {
-//     return { title: "News Article" };
-//   }
+export async function generateStaticParams() {
+  const catalogue = await getCatalogue();
+  return catalogue.map((article) => ({ slug: article.slug }));
+}
 
-//   if (!apiArticle) {
-//     return {
-//       title: "News article not found | The Woolwich Institute Dubai",
-//     };
-//   }
+export async function generateMetadata({
+  params,
+}: NewsRouteProps): Promise<Metadata> {
+  const { slug } = await params;
+  const match = await getNewsArticleBySlug(slug).catch(() => null);
 
-//   const article = normalizeNewsArticle(apiArticle);
+  if (!match) return { title: `News article not found | ${SITE_NAME}` };
 
-//   return {
-//     title: article.seoTitle,
-//     description: article.seoDescription,
-//     alternates: {
-//       canonical: article.canonicalUrl,
-//     },
-//     openGraph: {
-//       type: "article",
-//       title: article.seoTitle,
-//       description: article.seoDescription,
-//       url: article.canonicalUrl,
-//       siteName: "The Woolwich Institute Dubai",
-//       publishedTime: article.publishDate,
-//       authors: [article.author.name],
-//       tags: article.tags,
-//       images: [article.openGraphImage],
-//     },
-//     twitter: {
-//       card: "summary_large_image",
-//       title: article.seoTitle,
-//       description: article.seoDescription,
-//       images: [article.openGraphImage],
-//     },
-//   };
-// }
+  const article = normalizeNewsArticle(match);
 
-// export default async function NewsArticlePage({ params }: NewsDetailRouteProps) {
-//   const { slug } = await params;
+  return {
+    title: article.seoTitle,
+    description: article.seoDescription,
+    alternates: { canonical: article.canonicalUrl },
+    openGraph: {
+      type: "article",
+      title: article.seoTitle,
+      description: article.seoDescription,
+      url: article.canonicalUrl,
+      siteName: SITE_NAME,
+      publishedTime: article.publishDate,
+      tags: article.tags,
+      images: [article.openGraphImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.seoTitle,
+      description: article.seoDescription,
+      images: [article.openGraphImage],
+    },
+  };
+}
 
-//   let apiArticle;
-//   let newsData;
-//   try {
-//     [apiArticle, newsData] = await Promise.all([
-//       getNewsArticleBySlug(slug),
-//       getNews(),
-//     ]);
-//   } catch {
-//     notFound();
-//   }
+export default async function NewsRoute({ params }: NewsRouteProps) {
+  const { slug } = await params;
 
-//   if (!apiArticle) {
-//     notFound();
-//   }
+  const [match, catalogue] = await Promise.all([
+    getNewsArticleBySlug(slug).catch(() => null),
+    getCatalogue(),
+  ]);
 
-//   const article = normalizeNewsArticle(apiArticle);
-//   const { articles } = getNewsDisplayData(newsData.data ?? []);
-//   const relatedArticles = getRelatedNewsArticles(article, articles);
+  // Outside any try/catch — notFound() signals by throwing.
+  if (!match) notFound();
 
-//   const articleSchema = {
-//     "@context": "https://schema.org",
-//     "@type": "NewsArticle",
-//     headline: article.title,
-//     description: article.seoDescription,
-//     image: article.openGraphImage,
-//     datePublished: article.publishDate,
-//     dateModified: article.publishDate,
-//     author: {
-//       "@type": "Organization",
-//       name: article.author.name,
-//       description: article.author.biography,
-//     },
-//     publisher: {
-//       "@type": "CollegeOrUniversity",
-//       name: "The Woolwich Institute Dubai",
-//       logo: {
-//         "@type": "ImageObject",
-//         url: "https://www.woolwich.ac.ae/logo.svg",
-//       },
-//     },
-//     mainEntityOfPage: article.canonicalUrl,
-//   };
+  const article = normalizeNewsArticle(match);
 
-//   const breadcrumbSchema = {
-//     "@context": "https://schema.org",
-//     "@type": "BreadcrumbList",
-//     itemListElement: [
-//       {
-//         "@type": "ListItem",
-//         position: 1,
-//         name: "Home",
-//         item: "https://www.woolwich.ac.ae",
-//       },
-//       {
-//         "@type": "ListItem",
-//         position: 2,
-//         name: "News",
-//         item: "https://www.woolwich.ac.ae/news",
-//       },
-//       {
-//         "@type": "ListItem",
-//         position: 3,
-//         name: article.title,
-//         item: article.canonicalUrl,
-//       },
-//     ],
-//   };
+  // Unlike events, `publish_date` here is a real editorial date, so the
+  // article schema can state one honestly.
+  const schema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      headline: article.title,
+      description: article.seoDescription,
+      image: article.openGraphImage,
+      datePublished: article.publishDate,
+      dateModified: article.publishDate,
+      ...(article.author
+        ? { author: { "@type": "Person", name: article.author } }
+        : {}),
+      publisher: {
+        "@type": "CollegeOrUniversity",
+        name: SITE_NAME,
+        url: SITE_URL,
+      },
+      mainEntityOfPage: article.canonicalUrl,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "News",
+          item: `${SITE_URL}/news`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: article.title,
+          item: article.canonicalUrl,
+        },
+      ],
+    },
+  ];
 
-//   return (
-//     <>
-//       <NewsDetailPage article={article} relatedArticles={relatedArticles} />
-//       <script
-//         type="application/ld+json"
-//         suppressHydrationWarning
-//         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-//       />
-//       <script
-//         type="application/ld+json"
-//         suppressHydrationWarning
-//         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-//       />
-//     </>
-//   );
-// }
-
-export default function Page() {
-  return <div>Page</div>;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: serialized JSON-LD, not markup
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <NewsDetailPage
+        article={article}
+        relatedArticles={getRelatedNewsArticles(article, catalogue)}
+      />
+    </>
+  );
 }

@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { ApplyForm } from "@/components/apply/apply-form";
 import CourseCard from "@/components/cards/course-card";
 import { NeedHelpCard } from "@/components/cards/need-help-card";
 import { ArticleBody } from "@/components/detail/article-body";
+import { FactStrip } from "@/components/detail/fact-strip";
 import { RelatedSection } from "@/components/detail/related-section";
 import { Container } from "@/components/shared/container";
 import PageHero from "@/components/shared/page-hero";
@@ -12,19 +12,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import type {
   ApplyFieldOption,
   ApplyFormConfig,
 } from "@/data/format-data/apply-form";
 import type {
-  CourseFact,
   CourseModuleGroup,
   CourseProgramme,
   CourseSection,
@@ -46,62 +38,26 @@ interface CourseDetailPageProps {
 const WHATSAPP_BASE = "https://wa.me/971528983382";
 
 /**
- * The specification strip. Duration, tuition, and intake are the first three
- * things an applicant checks, so they sit above the prose rather than inside a
- * sidebar the reader has to hunt for.
+ * The awarding-body mark, hung on the end of the specification strip.
+ * Duration, tuition, and intake are the first things an applicant checks, so
+ * they sit above the prose rather than inside a sidebar to be hunted for.
  */
-function SpecStrip({
-  facts,
-  awardingMarkSrc,
-}: {
-  facts: CourseFact[];
-  awardingMarkSrc: string | null;
-}) {
-  if (facts.length === 0 && !awardingMarkSrc) return null;
-
+function AwardingMark({ src }: { src: string }) {
   return (
-    <section
-      aria-labelledby="spec-heading"
-      className="border-b border-border bg-stone-50"
-    >
-      <Container>
-        <h2 id="spec-heading" className="sr-only">
-          Programme at a glance
-        </h2>
-
-        <div className="flex flex-col gap-8 py-10 xl:flex-row xl:items-center xl:justify-between xl:gap-14">
-          <dl className="grid flex-1 grid-cols-2 gap-x-8 gap-y-7 sm:grid-cols-3 lg:grid-cols-4">
-            {facts.map((fact) => (
-              <div key={fact.label} className="border-s border-border ps-4">
-                <dt className="datum text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                  {fact.label}
-                </dt>
-                <dd className="mt-1.5 text-sm font-semibold leading-6 text-foreground">
-                  {fact.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-
-          {awardingMarkSrc ? (
-            <div className="flex items-center gap-4 border-s border-border ps-4 xl:shrink-0">
-              <span className="datum text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                Awarded by
-              </span>
-              {/* Decorative: the awarding body is already named in the h1, and
-                  the CMS gives us no text for the mark itself. */}
-              <Image
-                src={awardingMarkSrc}
-                alt=""
-                width={180}
-                height={56}
-                className="h-10 w-auto object-contain"
-              />
-            </div>
-          ) : null}
-        </div>
-      </Container>
-    </section>
+    <div className="flex items-center gap-4 border-s border-border ps-4 xl:shrink-0">
+      <span className="datum text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+        Awarded by
+      </span>
+      {/* Decorative: the awarding body is already named in the h1, and the CMS
+          gives us no text for the mark itself. */}
+      <Image
+        src={src}
+        alt=""
+        width={180}
+        height={56}
+        className="h-10 w-auto object-contain"
+      />
+    </div>
   );
 }
 
@@ -190,13 +146,11 @@ function ModuleSections({
 export function CourseDetailPage({
   course,
   similarCourses,
-  applyForm,
 }: CourseDetailPageProps) {
   const [overview, ...remainingSections] = course.sections;
   const whatsappHref = `${WHATSAPP_BASE}?text=${encodeURIComponent(
     `Hello Admissions, I would like to know more about ${course.title}.`,
   )}`;
-  const canApplyHere = course.showApply && applyForm !== null;
 
   return (
     <main>
@@ -206,11 +160,18 @@ export function CourseDetailPage({
         body={course.standfirst}
         imageSrc={course.image}
         imageAlt={course.imageAlt}
+        titleSize="headline"
       />
 
-      <SpecStrip
+      <FactStrip
         facts={course.facts}
-        awardingMarkSrc={course.awardingMarkSrc}
+        label="Programme at a glance"
+        id="spec"
+        trailing={
+          course.awardingMarkSrc ? (
+            <AwardingMark src={course.awardingMarkSrc} />
+          ) : null
+        }
       />
 
       <section className="py-16 sm:py-20">
@@ -260,7 +221,10 @@ export function CourseDetailPage({
                   course.showApply
                     ? [
                         {
-                          href: canApplyHere ? "#apply" : "/apply",
+                          // The in-page form was replaced by the closing CTA
+                          // band, so there is no longer an "#apply" anchor
+                          // on this page to point at.
+                          href: "/apply",
                           label: "Start your application",
                         },
                         {
@@ -283,8 +247,8 @@ export function CourseDetailPage({
         </Container>
       </section>
 
-    <CTASection />
-      
+      <CTASection />
+
       {similarCourses.length > 0 ? (
         <RelatedSection
           id="similar"

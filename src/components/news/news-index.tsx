@@ -4,10 +4,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BlogCard } from "@/components/blogs/blog-card";
 import { CardSkeletonGrid } from "@/components/shared/card-skeleton";
+import { Button } from "@/components/ui/button";
 import { getNews } from "@/data/api/news";
 import { toArticleCard } from "@/data/format-data/news-api-content";
 import type { NewsApiItem } from "@/data/types/news";
 import { Container } from "../shared/container";
+import { EmptyOutline } from "../shared/empty";
 import { PagePagination } from "../shared/Pagination";
 import PageHero from "../shared/page-hero";
 import { SearchFilterBar } from "../shared/searchfilterbar";
@@ -90,7 +92,7 @@ export function NewsIndex() {
         }
       />
 
-      <section className="bg-[var(--surface)]">
+      <section className="pt-8">
         <SearchFilterBar
           searchLabel="Search news"
           searchPlaceholder="Search news by title or topic..."
@@ -102,15 +104,11 @@ export function NewsIndex() {
         />
       </section>
 
-      <section className="bg-[var(--surface)] pb-20">
+      <section className="pb-20">
         <Container>
           <div className="pt-8">
             {error ? (
-              <div className="rounded-[12px] border border-[var(--border)] bg-white p-8 text-center sm:p-12">
-                <p className="text-base leading-7 text-[var(--muted)]">
-                  {error}
-                </p>
-              </div>
+              <EmptyOutline title="News is unavailable" description={error} />
             ) : isLoading ? (
               <CardSkeletonGrid
                 count={PER_PAGE}
@@ -125,26 +123,25 @@ export function NewsIndex() {
                   />
                 ))}
               </div>
-            ) : (
-              <div className="rounded-[12px] border border-[var(--border)] bg-white p-8 text-center sm:p-12">
-                <h2 className="text-3xl font-semibold tracking-[-0.025em] text-[var(--brand-navy)]">
-                  {search ? "No news match those filters" : "No news yet"}
-                </h2>
-                <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-[var(--muted)]">
-                  {search
-                    ? "Try a broader search term or clear your search."
-                    : "Check back soon for updates from The Woolwich Institute Dubai."}
-                </p>
-                {search ? (
-                  <button
-                    type="button"
+            ) : search ? (
+              <EmptyOutline
+                title="No news matches that search"
+                description="Try a broader term, or clear the search to see every update."
+                action={
+                  <Button
+                    variant="outline"
+                    size="lg"
                     onClick={() => setSearchInput("")}
-                    className="twi-button twi-button-primary relative mt-7 inline-flex min-h-12 items-center justify-center overflow-hidden rounded-[8px] border px-5 text-sm font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
                   >
-                    <span className="twi-button-content">Clear search</span>
-                  </button>
-                ) : null}
-              </div>
+                    Clear search
+                  </Button>
+                }
+              />
+            ) : (
+              <EmptyOutline
+                title="No news published yet"
+                description="Announcements and campus updates appear here as soon as they are published. Please check back shortly."
+              />
             )}
 
             {!isLoading && !error && total > 0 ? (

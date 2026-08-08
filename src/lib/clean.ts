@@ -40,6 +40,9 @@ export function sanitizeHtml(html: string | null | undefined): string {
       "h6",
       "hr",
       "i",
+      // normalizeCmsHtml drops every iframe that is not a YouTube embed before
+      // this runs, so nothing else can reach the page through this tag.
+      "iframe",
       "img",
       "li",
       "ol",
@@ -56,14 +59,20 @@ export function sanitizeHtml(html: string | null | undefined): string {
       "ul",
     ],
     ALLOWED_ATTR: [
+      "allow",
+      "allowfullscreen",
       "alt",
       "aria-label",
       "caption",
       // normalizeCmsHtml strips every authored class before adding its own
-      // `table-scroll` wrapper, so the only class that survives is ours.
+      // wrappers, so the only classes that survive are ours.
       "class",
       "colspan",
+      // normalizeCmsHtml writes these onto every CMS image and embed; without
+      // them on the allowlist DOMPurify strips the hints straight back off.
+      "decoding",
       "href",
+      "loading",
       "rel",
       "rowspan",
       "scope",

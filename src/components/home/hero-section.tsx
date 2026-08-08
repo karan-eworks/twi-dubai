@@ -1,19 +1,10 @@
-/** biome-ignore lint/a11y/noAriaHiddenOnFocusable: false positive */
 /** biome-ignore-all lint/a11y/noAriaHiddenOnFocusable: <explanation> */
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { ButtonLink } from "../shared/ButtonLink";
+
 import { Container } from "../shared/container";
 
 export interface HeroProgramme {
@@ -173,8 +164,7 @@ export function Hero({
           }}
           className="grid items-end gap-10 pb-12 lg:grid-cols-[minmax(0,1fr)_28rem] lg:gap-14 lg:pb-16"
         >
-          <div className="min-w-0 text-white">           
-            
+          <div className="min-w-0 text-white">
             <motion.h1
               id="hero-heading"
               variants={rise}
@@ -193,7 +183,7 @@ export function Hero({
           </div>
 
           {/* Instant Check out Form */}
-          
+
           {/* <motion.aside
             variants={rise}
             aria-labelledby="enrolment-check-heading"
@@ -285,7 +275,6 @@ export function Hero({
               </ButtonLink>
             </div>
           </motion.aside> */}
-
         </motion.div>
       </Container>
 

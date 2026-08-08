@@ -775,6 +775,27 @@
   margin-top: 0.75em;
 }
 
+/* Video wrapper added by normalizeCmsHtml. Editors paste embed code with
+   fixed pixel dimensions; the ratio is held here instead so the frame
+   scales with the measure. */
+.prose-cms .video-embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin-top: 1.75em;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md, 5px);
+  background: var(--color-navy-950);
+}
+
+.prose-cms .video-embed > iframe {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+}
+
 .prose-cms :not(pre) > code {
   background: var(--muted);
   color: var(--color-navy-700);

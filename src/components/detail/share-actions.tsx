@@ -8,10 +8,22 @@ interface ShareActionsProps {
   url: string;
   /** Announced to screen readers, e.g. "Share this article". */
   label?: string;
+  /** The field the row sits on — "dark" for a navy hero, "light" for body copy. */
+  surface?: "light" | "dark";
 }
 
-const CONTROL_CLASS =
-  "inline-flex size-10 cursor-pointer items-center justify-center rounded-sm border border-white/25 text-white/85 transition-colors hover:border-white hover:bg-white hover:text-navy-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
+const CONTROL_BASE =
+  "inline-flex size-10 cursor-pointer items-center justify-center rounded-sm border transition-colors focus-visible:outline-2 focus-visible:outline-offset-4";
+
+const CONTROL_CLASS: Record<"light" | "dark", string> = {
+  dark: `${CONTROL_BASE} border-white/25 text-white/85 hover:border-white hover:bg-white hover:text-navy-900 focus-visible:outline-white`,
+  light: `${CONTROL_BASE} border-border text-muted-foreground hover:border-navy-500 hover:bg-navy-500 hover:text-white focus-visible:outline-ring`,
+};
+
+const LABEL_CLASS: Record<"light" | "dark", string> = {
+  dark: "text-white/70",
+  light: "text-muted-foreground",
+};
 
 /* Brand marks are filled glyphs by definition — lucide ships none, so the
    three paths live here at one size and weight. */
@@ -27,6 +39,7 @@ export function ShareActions({
   title,
   url,
   label = "Share this page",
+  surface = "dark",
 }: ShareActionsProps) {
   const [copied, setCopied] = useState(false);
 
@@ -66,7 +79,9 @@ export function ShareActions({
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="datum me-2 text-[10px] uppercase tracking-[0.16em] text-white/70">
+      <span
+        className={`datum me-2 text-[10px] uppercase tracking-[0.16em] ${LABEL_CLASS[surface]}`}
+      >
         Share
       </span>
 
@@ -76,7 +91,7 @@ export function ShareActions({
           href={target.href}
           target="_blank"
           rel="noreferrer"
-          className={CONTROL_CLASS}
+          className={CONTROL_CLASS[surface]}
         >
           <svg
             viewBox="0 0 24 24"
@@ -90,7 +105,11 @@ export function ShareActions({
         </a>
       ))}
 
-      <button type="button" onClick={copyLink} className={CONTROL_CLASS}>
+      <button
+        type="button"
+        onClick={copyLink}
+        className={CONTROL_CLASS[surface]}
+      >
         {copied ? (
           <Check aria-hidden="true" className="size-4" />
         ) : (

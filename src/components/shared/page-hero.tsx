@@ -58,6 +58,17 @@ export type PageHeroProps = {
    * Set false only when the hero is already rendered outside your page container.
    */
   fullBleed?: boolean;
+  /**
+   * "display" is the page-name scale — sized for "About", "Apply", "Programmes".
+   * "headline" is for editorial titles: a news headline runs to a full sentence,
+   * and at display scale it is taller than the viewport before it is read.
+   */
+  titleSize?: "display" | "headline";
+};
+
+const TITLE_CLASS: Record<"display" | "headline", string> = {
+  display: "text-[clamp(3rem,9vw,7.5rem)] leading-[1.1]",
+  headline: "text-[clamp(2.25rem,5vw,4.25rem)] leading-[1.08] text-balance",
 };
 
 /* ── Motion ─────────────────────────────────────────────────── */
@@ -100,6 +111,7 @@ export default function PageHero({
   imageAlt = "",
   reverse = false,
   fullBleed = true,
+  titleSize = "display",
 }: PageHeroProps) {
   const uid = useId().replace(/[:]/g, "");
   const clipId = `twi-shield-${uid}`;
@@ -173,13 +185,15 @@ export default function PageHero({
           {/* Headline */}
           <h1
             id={`hero-title-${uid}`}
-            className="font-heading text-[clamp(3rem,9vw,7.5rem)] leading-[1.1] tracking-[-0.02em] "
+            className={`font-heading tracking-[-0.02em] ${TITLE_CLASS[titleSize]}`}
             style={{ color: NAVY_DEEP }}
           >
             {words.map((word, i) => (
               <span
                 key={`${word}-${i}`}
-                className="inline-block overflow-hidden pb-[0.06em] -mb-4 "
+                className={`inline-block overflow-hidden pb-[0.06em] ${
+                  titleSize === "display" ? "-mb-4" : "-mb-1"
+                }`}
               >
                 <motion.span variants={rise} className="inline-block">
                   {word}

@@ -1,38 +1,35 @@
-// import type { Metadata } from "next";
-// import { TeamsHero } from "@/src/components/sections/teams/teams-hero";
-// import { LeadershipGrid } from "@/src/components/sections/teams/leadership-grid";
-// import { ManagementGrid } from "@/src/components/sections/teams/management-grid";
-// import { DepartmentHeadsGrid } from "@/src/components/sections/teams/department-heads-grid";
-// import { TeamsCta } from "@/src/components/sections/teams/teams-cta";
-// import { getTeamDisplayData } from "@/src/components/sections/teams/team-api-content";
-// import { getTeam } from "@/src/data/fetch/team";
+import type { Metadata } from "next";
+import { TeamsDirectory } from "@/components/teams/teams-directory";
+import { getTeam } from "@/data/api/team";
+import { groupTeamByDepartment } from "@/data/format-data/teams-api-content";
 
-// export const metadata: Metadata = {
-//   title: "Our Team — The Woolwich Institute Dubai",
-//   description:
-//     "Meet the leadership, management team, and department heads at The Woolwich Institute Dubai. KHDA-licensed and Pearson-approved vocational education in Dubai.",
-// };
+const SITE_NAME = "The Woolwich Institute Dubai";
+const description =
+  "Meet the advisory board, senior management team, and department heads at The Woolwich Institute Dubai — KHDA-licensed, Pearson-approved vocational education.";
 
-// export default async function TeamsPage() {
-//   let teamData;
-//   try {
-//     teamData = await getTeam();
-//   } catch {
-//     teamData = { data: [] };
-//   }
-//   const { leadership, faculty, support } = getTeamDisplayData(teamData.data ?? []);
+export const metadata: Metadata = {
+  title: `Our team | ${SITE_NAME}`,
+  description,
+  alternates: { canonical: "https://www.woolwich.ac.ae/teams" },
+  openGraph: {
+    title: `Our team | ${SITE_NAME}`,
+    description,
+    url: "https://www.woolwich.ac.ae/teams",
+    siteName: SITE_NAME,
+    images: ["/images/twi-classroom-study.jpg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Our team | ${SITE_NAME}`,
+    description,
+    images: ["/images/twi-classroom-study.jpg"],
+  },
+};
 
-//   return (
-//     <main>
-//       <TeamsHero />
-//       <LeadershipGrid members={leadership} />
-//       <ManagementGrid members={faculty} />
-//       <DepartmentHeadsGrid members={support} />
-//       <TeamsCta />
-//     </main>
-//   );
-// }
+export default async function TeamsPage() {
+  // An unreachable CMS degrades to the empty state rather than a 500.
+  const team = await getTeam().catch(() => null);
+  const departments = groupTeamByDepartment(team?.data ?? []);
 
-export default function Page() {
-  return <div>Page</div>;
+  return <TeamsDirectory departments={departments} />;
 }

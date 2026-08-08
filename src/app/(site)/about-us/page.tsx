@@ -5,16 +5,15 @@ import { CampusGallery } from "@/components/about/dubai-campus";
 import { LeadershipTeam } from "@/components/about/leadership-section";
 import CTASection from "@/components/shared/cta-section";
 import PageHero from "@/components/shared/page-hero";
-import { getBlogs } from "@/data/api/blogs";
 import { getPageBySlug } from "@/data/api/pages";
 import { getTeam } from "@/data/api/team";
 import { getAboutData, getAboutMeta } from "@/data/format-data/about-content";
-import type { BlogListApiResponse } from "@/data/types/blogs";
+import { groupTeamByDepartment } from "@/data/format-data/teams-api-content";
 import type { PageApiItem } from "@/data/types/pages";
 import type { TeamListApiResponse } from "@/data/types/team";
 
 async function getAboutPageData() {
-  const [page, teamData, blogData] = await Promise.all([
+  const [page, teamData] = await Promise.all([
     getPageBySlug("about-us").catch(() => null),
     getTeam().catch(
       () =>
@@ -22,18 +21,11 @@ async function getAboutPageData() {
           data: [],
         }) as Pick<TeamListApiResponse, "data">,
     ),
-    getBlogs().catch(
-      () =>
-        ({
-          data: [],
-        }) as Pick<BlogListApiResponse, "data">,
-    ),
   ]);
 
   return {
     page: page as PageApiItem | null,
     teamData,
-    blogData,
   };
 }
 
@@ -60,9 +52,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutUs() {
-  const { page, teamData, blogData } = await getAboutPageData();
+  const { page, teamData } = await getAboutPageData();
 
   const about = getAboutData(page);
+  // The board is who this section introduces; the wider roster lives on /teams.
+  const board =
+    groupTeamByDepartment(teamData.data ?? []).find(
+      (department) => department.slug === "advisory-board",
+    )?.members ?? [];
 
   return (
     <div className="flex flex-col bg-zinc-50 font-sans dark:bg-black">
@@ -79,7 +76,7 @@ export default async function AboutUs() {
         heading={about?.purpose.heading}
         html={about?.purpose?.html}
       />
-      <LeadershipTeam />
+      <LeadershipTeam team={board} />
       <CTASection />
       <CampusGallery />
     </div>

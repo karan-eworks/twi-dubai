@@ -47,6 +47,11 @@ export interface TeamApiItem {
   meta_tag?: ApiMetaTag | null;
   active?: boolean | number | string | null;
   status?: string | boolean | null;
+  /** Manual sort weight. The CMS leaves it at 0 for most records. */
+  order?: number | null;
+  publish?: boolean | null;
+  /** Set when someone has left; they stay in the API but off the site. */
+  resigned?: boolean | null;
   created_at?: string | null;
   updated_at?: string | null;
 }
